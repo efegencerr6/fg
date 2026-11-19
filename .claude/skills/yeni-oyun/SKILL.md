@@ -71,7 +71,7 @@ Sonra şu sırayla ilerle; her adımdan sonra derleyip kareye bak:
    `js/00-ayar.js`: yazılar, kademeler (`etki` metniyle), tohum kalabalık, sahte yorumlar, kapasite.
    **Müzik de burada**: `muzik: { takim, havalar }`. Şablon `takim: 'SEC'` ile gelir; seçmeden bırakırsan derleme
    uyarır, sayfa konsola hata yazar, test kalır. En az iki **özgün** hava yaz (nota ve davul yazımı
-   `docs/MUZIK.md`; örnekler `oyunlar/konvoy/js/00-ayar.js`, `oyunlar/vur-duzelsin/js/00-ayar.js`). Var olan
+   `docs/MUZIK.md`; örnekler `oyunlar/konvoy/js/00-ayar.js`, `oyunlar/dolmus/js/00-ayar.js`). Var olan
    şarkı, türkü, marş, tezahürat, jenerik ya da reklam müziği yazma.
 2. Diziliş ve hareket: `oyunYerlesim`, `oyunGiris`, `oyunGuncelle`, `oyunKamera`.
 3. Çizim: `oyunZemin` (arka plan, zemin, gölgeler), `oyunCiz` (izleyiciler ve sahnedeki her şey).

@@ -37,7 +37,8 @@ Hangi oyun ne çalıyor:
 | --- | --- | --- | --- |
 | `halay` | `davul-zurna` | Harman Yeri, Toz Duman, Çifte Mendil | 104, 132, 84 |
 | `konvoy` | `dugun` | Kurdele (hicaz), Selektör (nihavend) | 104, 118 |
-| `vur-duzelsin` | `mac` | Naklen Yayın (majör), Tribün (dorian) | 112, 120 |
+| `halat-cekme` | `davul-zurna` | Çekiş Havası, Meydan Şenliği (kendi havaları) | 96, 116 |
+| `dolmus` | `dugun` | Durak Havası (kürdi), Son Durak (uşşak, 6/8) | 108, 92 |
 
 ## Takımlar
 

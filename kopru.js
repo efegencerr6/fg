@@ -320,10 +320,10 @@ function dinle() {
   // Yalnızca bu bilgisayardan erişilir (127.0.0.1); ağdaki başka cihazlar bağlanamaz.
   sunucu.listen(PORT, '127.0.0.1', () => {
     if (ANA) {
-      console.log('\n  TikTok Oyun Fabrikası açık:  http://localhost:' + PORT + '/');
+      console.log('\n  TikTok furkanxtopal Sistemi açık:  http://localhost:' + PORT + '/');
       if (ARKA) {
         yaz('Motor açıldı (süreç ' + process.pid + '), penceresiz çalışıyor.');
-        console.log('  Durdurmak için ana sayfada "Motoru kapat"a bas; o sekme de kapanınca motor tamamen kapanır. Tarayıcıda hiçbir oyun fabrikası sayfası açık değilken ' + sureYazi(BOS_KAPANIS_MS) + ' sonra kendiliğinden kapanır.\n');
+        console.log('  Durdurmak için ana sayfada "Motoru kapat"a bas; o sekme de kapanınca motor tamamen kapanır. Tarayıcıda sistemin hiçbir sayfası açık değilken ' + sureYazi(BOS_KAPANIS_MS) + ' sonra kendiliğinden kapanır.\n');
         bostaKapanmayiKur();
       } else console.log('  Bu ' + METIN.pencere + ' oyunların motorudur. Açık kalsın; kapatınca oyunlar durur. Ana sayfadaki "Motoru kapat" da kapatır.\n');
       if (args.includes('--ac')) tarayicidaAc('http://localhost:' + PORT + '/');
@@ -391,7 +391,7 @@ function gizliBaslat() {
     if (k.tur === 'ana' && k.j.motor === MOTOR_KIMLIK) {
       // Aynı klasörün motoru: uykudaysa (ana sayfadan durduruldu) uyandırılır, sonra sayfa açılır.
       uyandirIste(k.j, () => {
-        console.log('\n  Oyun fabrikası zaten açık: ' + adres + '\n');
+        console.log('\n  TikTok furkanxtopal Sistemi zaten açık: ' + adres + '\n');
         if (args.includes('--ac')) tarayicidaAc(adres);
         setTimeout(() => process.exit(0), args.includes('--ac') ? 600 : 0);
       });
@@ -401,7 +401,7 @@ function gizliBaslat() {
       console.log('\n  Başka bir oyun klasöründen ya da başka bir sürümden açılmış motor çalışıyor; o kapatılıyor.');
       kapiIstek('/kapat', { yontem: 'POST', govde: { tam: true }, basliklar: { 'x-fabrika': 'kapat' } }, (h, j, kod) => {
         if (kod !== 200) {
-          console.log('\n  Oyun fabrikasının eski bir motoru açık ve kendiliğinden kapanmıyor.\n  O ' + METIN.pencereyi + ' kapat, sonra ' + METIN.yeniden + '.\n');
+          console.log('\n  Sistemin eski bir motoru açık ve kendiliğinden kapanmıyor.\n  O ' + METIN.pencereyi + ' kapat, sonra ' + METIN.yeniden + '.\n');
           process.exit(1);
         }
         kapiBosalinca(bos => {
@@ -1027,7 +1027,7 @@ function zatenAcik() {
   sor('/api/oyunlar', j => {
     if (j && j.anaSayfa === true) { // aynı klasörün motoru ana sayfadan durdurulduysa (uyku) önce uyandırılır
       clearTimeout(sinir);
-      return uyandirIste(j.motor === MOTOR_KIMLIK ? j : null, () => son('\n  Oyun fabrikası zaten açık: ' + adres + '\n  O sayfayı kullanabilirsin. Bu pencereyi kapatabilirsin.\n', 0, true));
+      return uyandirIste(j.motor === MOTOR_KIMLIK ? j : null, () => son('\n  TikTok furkanxtopal Sistemi zaten açık: ' + adres + '\n  O sayfayı kullanabilirsin. Bu pencereyi kapatabilirsin.\n', 0, true));
     }
     sor('/durum', d => {
       if (d && d.sayac && typeof d.durum === 'string') return son('\n  Oyun motoru başka bir pencerede zaten açık (tek oyunla, eski yoldan başlatılmış).\n  O ' + METIN.pencereyi + ' kapat, sonra ' + METIN.yeniden + '.\n', 1);
@@ -1192,6 +1192,22 @@ function baglantiHatasiIc(e, kullaniciAdi) {
 }
 // Döndürdüğü işlev bağlantıyı ve bekleyen yeniden denemeyi durdurur (ana sayfadan başka oyuna geçilince).
 // Durdurulduktan sonra eski bağlantıdan gelen olay, bağlanma yanıtı ya da kopma bildirimi yok sayılır.
+// İsteğe bağlı Euler Stream API anahtarı (eulerstream.com, ücretsiz). Kütüphane yayının odasını bulamayınca son çare
+// olarak Euler'e sorar; anahtarsız bu yol kapalı ("lack of permission"). Anahtar TikTok hesabına giriş değildir, yalnız
+// imza hizmetinindir. Klasördeki euler-anahtari.txt dosyasından okunur, depoya girmez (.gitignore), günlüğe yazılmaz.
+let eulerUyarildi = false;
+function eulerAnahtari() {
+  let a = '';
+  try { a = fs.readFileSync(path.join(__dirname, 'euler-anahtari.txt'), 'utf8').replace(/^﻿/, '').trim(); } catch (e) { return ''; }
+  if (!/^[\w.\-]{8,256}$/.test(a)) {
+    if (!eulerUyarildi) console.log('  euler-anahtari.txt okunamadı: içinde yalnız anahtar olmalı (boşluksuz tek satır). Anahtarsız devam ediliyor.');
+    eulerUyarildi = true;
+    return '';
+  }
+  if (!eulerUyarildi) console.log('  Euler Stream anahtarı bulundu (euler-anahtari.txt); bağlanırken kullanılacak.');
+  eulerUyarildi = true;
+  return a;
+}
 function tiktokBaslat(kullaniciAdi = KULLANICI) {
   let Kutuphane;
   try { Kutuphane = require('tiktok-live-connector'); }
@@ -1216,7 +1232,10 @@ function tiktokBaslat(kullaniciAdi = KULLANICI) {
   function baglan() {
     if (durdu) return;
     try { if (baglanti && baglanti.disconnect) baglanti.disconnect(); } catch (e) {}
-    try { baglanti = new Sinif(KULLANICI, { enableExtendedGiftInfo: false, processInitialData: false }); }
+    const secenek = { enableExtendedGiftInfo: false, processInitialData: false }, anahtar = eulerAnahtari();
+    if (anahtar)
+      secenek.signApiKey = anahtar;
+    try { baglanti = new Sinif(KULLANICI, secenek); }
     catch (e) { durumBildir('Bağlantı kurulamadı: ' + (kisaYazi(e, 140) || 'kütüphane açılamadı') + '.', 'hata'); return; }
     const bu = baglanti, gecerli = () => !durdu && bu === baglanti;
     deneniyor = true;

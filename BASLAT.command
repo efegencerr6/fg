@@ -1,5 +1,5 @@
 #!/bin/sh
-# TikTok Oyun Fabrikası - macOS başlatıcısı (Finder'da çift tıkla). BASLAT.bat (Windows) ve BASLAT.sh (Linux) ile aynı işi
+# TikTok furkanxtopal Sistemi - macOS başlatıcısı (Finder'da çift tıkla). BASLAT.bat (Windows) ve BASLAT.sh (Linux) ile aynı işi
 # yapar: motoru ana sayfa kipinde açar; gereken kütüphaneyi motor ilk seferde kendisi indirir, durumu sayfada görünür.
 # Düz POSIX sh; bash'e özgü bir şey yok.
 

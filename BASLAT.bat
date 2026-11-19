@@ -1,6 +1,6 @@
 @echo off
 chcp 65001 >nul
-title TikTok Oyun Fabrikasi
+title TikTok furkanxtopal Sistemi
 cd /d "%~dp0"
 
 rem ZIP icinden cift tiklandiysa (cikarilmadan) yaninda hicbir sey yoktur: once klasore cikarmasini soyle.
@@ -42,7 +42,7 @@ exit /b 1
 echo.
 echo  Node.js bulunamadi. Oyunlarin motoru icin gerekli, ucretsiz bir program.
 echo  En kolayi: hicbir sey kurmadan calisan hazir paketi indir:
-echo    https://github.com/furkancavlak/tiktok-oyun-fabrikasi/releases
+echo    https://github.com/topalxfurkan/furkanxtopalsistem/releases
 echo  Ya da Node.js kur, sonra BASLAT.bat dosyasina yeniden cift tikla:
 echo    https://nodejs.org/dist/v24.15.0/node-v24.15.0-x64.msi
 echo    (node.exe ya da Standalone Binary degil, .msi uzantili kurulum dosyasi)

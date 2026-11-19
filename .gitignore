@@ -11,3 +11,5 @@ Thumbs.db
 .kurulum-kilidi.json
 # Penceresiz motorun günlüğü (kopru.js --gizli, BASLAT.bat)
 motor-gunlugu.txt
+# Euler Stream API anahtarı (kopru.js okur); kişiye özeldir, depoya girmez
+euler-anahtari.txt
