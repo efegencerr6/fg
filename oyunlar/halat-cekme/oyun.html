@@ -656,7 +656,7 @@ const OYUN = {
   id: 'halat-cekme',
   ad: 'Köy Halat Çekme',
   logo: ['Halat', 'Çekme'],
-  nasil: { yorum: 'Katıl: 1 ya da 2 yaz', begeni: 'Beğeni: halatı çek', hediye: 'Hediye: sert asıl' },
+  nasil: { yorum: 'Katıl: 1 ya da 2 yaz', begeni: 'Beğeni: halatı çek', hediye: '' },
   yazi: {
     sira: 'Pehlivanlar', gosterge: 'Coşku', bos: 'Meydan boş. 1 ya da 2 yaz, takımını seç.',
     birim: 'kişi', ses: 'Davul zurnayı başlat', sahne: 'Köy halat çekme sahnesi', giris: 'takımına girer',
@@ -5325,7 +5325,7 @@ function oyunKamera() {
   const sutun = clamp(Math.max(n[0], n[1], 2), 2, SUTUN);
   const w = ON_BOS + (sutun - 1) * ARA_X + (D.satir > 1 ? ARA_X / 2 : 0) + KAZAN * 0.6;
   const arka = (D.satir - 1) * ARA_Z;
-  return { noktalar: [[-w, 0], [w, 0], [-w, arka], [w, arka], [0, hakemZ()]], x: 0, ustPx: 36, altPx: 112 };
+  return { noktalar: [[-w, 0], [w, 0], [-w, arka], [w, arka], [0, hakemZ()]], x: 0, ustPx: 36 };
 }
 
 /* ── oyunlar/halat-cekme/js/30-cizim.js ── */
@@ -5620,60 +5620,7 @@ function camurSicrat(yan) {
   for (let i = 0; i < 26; i++)
     camurDamla.push({ x: yan * (0.2 + Math.random() * 0.4), y: 0.05, z: Math.random() * (arka + 0.2), vx: (Math.random() - 0.5) * 1.6, vy: 1.6 + Math.random() * 1.8, vz: (Math.random() - 0.6) * 1.2, r: 0.03 + Math.random() * 0.05 });
 }
-// Sahne üstü hediye tablosu: oyuncu şeridinin en altında, TikTok'un yorum alanının hemen üstünde, tek sıra halinde.
-// Sağ üst sütun çekirdeğin bildirimlerine ait (hediye, takip satırları oraya düşer); tablo orada kalsaydı üstü örtülürdü.
-// Kamera bu bant için altta pay bırakır (oyunKamera, altPx), oyuncular tablonun üstünde kalır. Metinler OYUN.kademe'den.
-const TABLO = { x: 16, y: 902, w: 688, h: 104 };
-function hediyeTablosu() {
-  const kd = OYUN.kademe.slice().sort((a, b) => a.min - b.min), T = TABLO, n = kd.length, cw = (T.w - 20) / n;
-  c.save();
-  c.fillStyle = 'rgba(14,24,16,0.78)';
-  c.beginPath();
-  c.roundRect(T.x, T.y, T.w, T.h, 14);
-  c.fill();
-  c.textBaseline = 'middle';
-  c.textAlign = 'left';
-  c.font = '700 16px Rubik, system-ui, sans-serif';
-  c.fillStyle = RENK.vurgu;
-  c.fillText('HEDİYE AT, HALATI ÇEK', T.x + 14, T.y + 17);
-  c.textAlign = 'right';
-  c.font = '600 14px Rubik, system-ui, sans-serif';
-  c.fillStyle = 'rgba(246,236,217,0.8)';
-  c.fillText('jeton → etki', T.x + T.w - 14, T.y + 17);
-  kd.forEach((k, i) => {
-    const x = T.x + 10 + i * cw, y = T.y + 34, enBuyuk = i === n - 1, nabiz = enBuyuk ? 1 + 0.15 * calgi.dumP : 1;
-    c.fillStyle = enBuyuk ? 'rgba(255,209,102,0.16)' : 'rgba(255,255,255,0.06)';
-    c.beginPath();
-    c.roundRect(x + 3, y, cw - 6, 62, 10);
-    c.fill();
-    if (enBuyuk) {
-      c.strokeStyle = RENK.vurgu;
-      c.lineWidth = 1.5 + calgi.dumP;
-      c.stroke();
-    }
-    // jeton: altın daire + eşik
-    const m = x + cw / 2;
-    c.font = '700 18px Rubik, system-ui, sans-serif';
-    const yaz = k.min + '+', gen = c.measureText(yaz).width;
-    c.fillStyle = '#f2b632';
-    c.beginPath();
-    c.arc(m - gen / 2 - 6, y + 19, 7 * nabiz, 0, TAU);
-    c.fill();
-    c.strokeStyle = '#8a5a12';
-    c.lineWidth = 1.5;
-    c.stroke();
-    c.textAlign = 'left';
-    c.fillStyle = '#fff4dc';
-    c.fillText(yaz, m - gen / 2 + 5, y + 19);
-    c.textAlign = 'center';
-    c.font = '600 15px Rubik, system-ui, sans-serif';
-    c.fillStyle = enBuyuk ? RENK.vurgu : '#e9f0d0';
-    c.fillText(k.ad, m, y + 45);
-  });
-  c.restore();
-}
 function oyunUst(dt) {
-  hediyeTablosu();
   for (let i = camurDamla.length - 1; i >= 0; i--) {
     const d = camurDamla[i];
     d.vy -= 9 * dt;

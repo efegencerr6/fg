@@ -8,7 +8,7 @@ const OYUN = {
   id: 'dolmus',
   ad: 'Dolmuş',
   logo: ['Dolmuş', 'Hattı'],
-  nasil: { yorum: 'Yorum: dolmuşa bin', begeni: 'Beğeni: gaz', hediye: 'Hediye: direksiyon' },
+  nasil: { yorum: 'Yorum: dolmuşa bin', begeni: 'Beğeni: gaz', hediye: '' },
   yazi: {
     sira: 'Direksiyon sırası', gosterge: 'Gaz', bos: 'Dolmuş boş. İlk binen direksiyona geçer.',
     birim: 'yolcu', ses: 'Kaseti başlat', sahne: 'Dolmuş sahnesi', giris: 'dolmuşa biner', bosalt: 'Dolmuşu boşalt'
