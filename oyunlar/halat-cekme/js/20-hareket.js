@@ -252,5 +252,5 @@ function oyunKamera() {
   const sutun = clamp(Math.max(n[0], n[1], 2), 2, SUTUN);
   const w = ON_BOS + (sutun - 1) * ARA_X + (D.satir > 1 ? ARA_X / 2 : 0) + KAZAN * 0.6;
   const arka = (D.satir - 1) * ARA_Z;
-  return { noktalar: [[-w, 0], [w, 0], [-w, arka], [w, arka], [0, hakemZ()]], x: 0, ustPx: 36 };
+  return { noktalar: [[-w, 0], [w, 0], [-w, arka], [w, arka], [0, hakemZ()]], x: 0, ustPx: 36, altPx: 112 };
 }
