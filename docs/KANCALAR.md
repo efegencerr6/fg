@@ -85,6 +85,7 @@ const OYUN = {
   kamera: {},                            // isteğe bağlı: { egim, F, enYakin, ustPay, altPay, ustPx, altPx, x, on, odakEn }
   etiket: {},                            // isteğe bağlı: { ustSinir, altSinir, disari, balonSira } ("Ad etiketleri")
   sahneYazi: {},                         // isteğe bağlı: { pankart: 'alt' } ("Sahne yazıları")
+  sahneJeton: false,                     // isteğe bağlı: sahnede (sıra kutusu, bildirim) jeton sayısı yazılmaz; masada yazar
   muzik: { takim: 'davul-zurna', havalar: ['harman', 'toz', 'cifte'] }   // OYUNUN KENDİ MÜZİĞİ ("Müzik")
 };
 ```

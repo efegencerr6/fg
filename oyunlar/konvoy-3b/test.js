@@ -207,7 +207,7 @@ const CEKIMLER = ['drone', 'yan', 'on', 'kus', 'tur', 'yakin', 'kenar', 'vinc'];
   const s4Yazi = await sonBildirim();
   // an rejinin süper araba sırasına girer (ya da hemen çekime / geniş çekimin kartına geçer)
   const sKart = await p.evaluate(() => { const D = CanliOyun._test.D, R = D.reji, k = D.oy.get('s4'); return { an: D.superAn && D.superAn.k.id, b0: D.superAn && D.superAn.b0, olay: R.superSira.some(a => a.k === k) || !!(R.cekim && R.cekim.ad === 'super' && R.cekim.k === k) || !!(R.vurgu && R.vurgu.k === k && R.vurgu.ust === 'SÜPER ARABA') }; });
-  kontrol('Tek seferde 1000 jetonluk hediye o anda kasayı süper arabaya çevirir; an onundur, rejiye süper araba anı olarak gider; bildirim "Süper araba!" der', (await tip('s4')) === 'super' && d.superAraba.join() === 'super4' && d.superDegisim === 1 && sKart.an === 's4' && sKart.olay && /1000 jeton Süper araba!/.test(s4Yazi), { d: d.superAraba, sKart, s4Yazi });
+  kontrol('Tek seferde 1000 jetonluk hediye o anda kasayı süper arabaya çevirir; an onundur, rejiye süper araba anı olarak gider; bildirim "Süper araba!" der', (await tip('s4')) === 'super' && d.superAraba.join() === 'super4' && d.superDegisim === 1 && sKart.an === 's4' && sKart.olay && /(1000 jeton|·) Süper araba!/.test(s4Yazi), { d: d.superAraba, sKart, s4Yazi });
   await p.waitForTimeout(400);
   await O({ tip: 'hediye', kullanici: { id: 's4', ad: 'super4' }, jeton: 1000 });
   const sKart2 = await p.evaluate(() => CanliOyun._test.D.superAn.b0);

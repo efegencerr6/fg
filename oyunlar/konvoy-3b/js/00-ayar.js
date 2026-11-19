@@ -46,6 +46,8 @@ const OYUN = {
   sahneYazi: { pankart: 'alt' },
   // Müzik: düğün oyun havası (darbuka, def zili, klarnet, alttan bas). Gelin Konvoyu'nun iki havası, aynı oyunun
   // 3B baskısı olduğu için aynen. Yazım docs/MUZIK.md. Tempo konvoyun hızını ve rejinin kesmelerini belirler.
+  // Sahnede jeton sayısı yok (TikTok yayın kuralları): sıra kutusunda yalnız adlar, bildirimde etkinin adı.
+  sahneJeton: false,
   muzik: {
     takim: 'dugun',
     havalar: [

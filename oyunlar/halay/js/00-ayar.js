@@ -25,5 +25,7 @@ const OYUN = {
   renk: {},
   kamera: {},
   // Müzik: halayın davul zurnası ve üç havası (çekirdekteki davul-zurna takımının kendi havaları; docs/MUZIK.md).
+  // Sahnede jeton sayısı yok (TikTok yayın kuralları): sıra kutusunda yalnız adlar, bildirimde etkinin adı.
+  sahneJeton: false,
   muzik: { takim: 'davul-zurna', havalar: ['harman', 'toz', 'cifte'] }
 };

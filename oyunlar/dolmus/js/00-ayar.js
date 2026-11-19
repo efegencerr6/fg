@@ -33,6 +33,8 @@ const OYUN = {
   sahneYazi: { pankart: 'alt' },
   // Müzik: dolmuş kaseti gibi düğün takımı (darbuka, def zili, klarnet, alttan bas); konvoyun havaları değil, bu
   // oyunun iki özgün havası. Yazım docs/MUZIK.md. Tempo dolmuşun sallantısıdır.
+  // Sahnede jeton sayısı yok (TikTok yayın kuralları): sıra kutusunda yalnız adlar, bildirimde etkinin adı.
+  sahneJeton: false,
   muzik: {
     takim: 'dugun',
     havalar: [

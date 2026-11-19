@@ -26,7 +26,7 @@ Bu proje TikTok ile bağlantılı değildir ve TikTok tarafından onaylanmamış
 | --- | --- | --- |
 | Çekirdek | `cekirdek/` | Her oyunda aynı kalan iş: sahne, izleyici sırası, coşku göstergesi, hediye kademeleri, lider tablosu, müzik saati, yayın masası (deneme ve moderasyon paneli), testler |
 | Örnek oyun | `oyunlar/halay/` | "Mendil Kimde?": bir halay oyunu. Yorum yazan halaya girer, en çok hediye atan halay başı olur |
-| Köy Halat Çekme | `oyunlar/halat-cekme/` | Yorumda 1 yazan Yukarı, 2 yazan Aşağı Mahalle'ye geçer; takımın beğenisi ve hediyesi halatı çeker, önü çamura düşen turu kaybeder |
+| Köy Halat Çekme | `oyunlar/halat-cekme/` | Yorumda 1 yazan İstanbul'a, 2 yazan Ankara'ya geçer; takımın beğenisi ve hediyesi halatı çeker, önü çamura düşen turu kaybeder |
 | Dolmuş | `oyunlar/dolmus/` | Yorum yazan dolmuşa biner, beğeni gaza bastırır, en çok hediye atan şoför olur; hediyeler korna, fren, kaset, viraj yaptırır, en büyüğünde dolmuş uçar |
 | Şablon | `sablon/` | Çalışan en küçük oyun. Yeni oyun buradan kopyalanır |
 | Köprü | `kopru.js` | Bir TikTok canlı yayınını okur ve olayları oyun sayfasına iletir |

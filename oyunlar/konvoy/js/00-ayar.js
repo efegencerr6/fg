@@ -32,6 +32,8 @@ const OYUN = {
   kamera: { egim: 0.5, F: 700, enYakin: 3.5, ustPay: 2.2, altPay: 0.25 },
   // Müzik: düğün oyun havası (darbuka, def zili, klarnet, alttan bas). İki özgün hava, sırayla döner.
   // Yazım docs/MUZIK.md. Tempo konvoyun akışını da belirler: yol vuruşla akar, kornalar vuruşla ölçülür.
+  // Sahnede jeton sayısı yok (TikTok yayın kuralları): sıra kutusunda yalnız adlar, bildirimde etkinin adı.
+  sahneJeton: false,
   muzik: {
     takim: 'dugun',
     havalar: [

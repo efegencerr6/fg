@@ -647,8 +647,8 @@ CanliOyun.olay({tip:"hediye", kullanici:{id:"ayse", ad:"Ayşe"}, jeton:50})</pre
 /* ── oyunlar/halat-cekme/js/00-ayar.js ── */
 /* AYAR — Köy Halat Çekme oyununun bütün yazıları, hediye kademeleri, açılış kalabalığı ve sahte yorumları.
  * Derlemede HER ZAMAN İLK dosyadır; çekirdek OYUN'u buradan okur (docs/KANCALAR.md).
- * Oyun: iki mahalle köy meydanında halat çeker. Yorumunda 1 yazan Yukarı Mahalle'ye (kırmızı, sol), 2 yazan
- * Aşağı Mahalle'ye (mavi, sağ) geçer; sayı yazmayan az kişili takıma girer. Takımındakinin her yorumu ve beğenisi
+ * Oyun: İstanbul ile Ankara köy meydanında halat çeker. Yorumunda 1 yazan İstanbul'a (kırmızı, sol), 2 yazan
+ * Ankara'ya (mavi, sağ) geçer; sayı yazmayan az kişili takıma girer. Takımındakinin her yorumu ve beğenisi
  * halatı kendi yanına çeker, hediyeler sert asılır. Ortadaki çamur çukuruna önü düşen takım turu kaybeder.
  * En çok hediye atan altın kemeri takar, takımının en önüne geçer.
  */
@@ -656,9 +656,9 @@ const OYUN = {
   id: 'halat-cekme',
   ad: 'Köy Halat Çekme',
   logo: ['Halat', 'Çekme'],
-  nasil: { yorum: 'Katıl: 1 ya da 2 yaz', begeni: 'Beğeni: halatı çek', hediye: '' },
+  nasil: { yorum: 'İstanbul için 1, Ankara için 2 yaz', begeni: 'Halatı çek', hediye: '' },
   yazi: {
-    sira: 'Pehlivanlar', gosterge: 'Coşku', bos: 'Meydan boş. 1 ya da 2 yaz, takımını seç.',
+    sira: 'Pehlivanlar', gosterge: 'Coşku', bos: 'İstanbul için 1, Ankara için 2 yaz.',
     birim: 'kişi', ses: 'Davul zurnayı başlat', sahne: 'Köy halat çekme sahnesi', giris: 'takımına girer',
     bosalt: 'Meydanı boşalt'
   },
@@ -672,8 +672,8 @@ const OYUN = {
     { min: 1, ad: 'Hıh!', tip: 'hih', etki: 'Gönderen zıplayıp asılır, halatı biraz çeker' }
   ],
   tohum: [['zeyno.47', 320], ['urfalı_bekir', 140], ['gülizar_teyze', 60], ['dj_mahmut', 25], ['elif_naz', 10], ['hasan.usta', 5], ['pınar_34', 0], ['köyün_delisi', 0], ['berfin_gül', 0], ['muhtar_emmi', 0], ['laz_ziya', 0], ['sude_nur', 0]],
-  sahteAd: ['pehlivan_rıza', 'kıvırcık_ayşe', 'yukarı.mahalle', 'zeyno.47', 'urfalı_bekir', 'gülizar_teyze', 'mert.can.21', 'elif_naz', 'dj_mahmut', 'karadenizli.cemo', 'sibel_abla', 'ozan_dayı', 'mardinli_rojin', 'tuğçe.sk', 'hasan.usta', 'pınar_34', 'köyün_delisi', 'berfin_gül', 'yusuf.63', 'nazlı_can', 'aşağı_mahalle', 'şahin_k', 'melo.27', 'halatçı_kemal', 'fatoş_01', 'efe_tr', 'cano_23', 'zilan.d', 'hüso_baba', 'ayten_hanım', 'kemo_44', 'deniz.yıldızı', 'rıza_amca', 'sude_nur', 'baran.21', 'ipek_böceği', 'muhtar_emmi', 'selo_02', 'songül.k', 'laz_ziya', 'egeli_duru', 'bozkır_ali', 'nur.sena'],
-  sahteYorum: ['1', '2', '1 çekin!', '2 asılın', 'yukarı mahalle 1', 'aşağı mahalle 2 burada', 'hıh hıh hıh', 'çek çek çek', 'bırakmayın!', 'çamura düşecekler', '1 1 1', '2 2 2', 'kolum koptu', 'halat kopacak', 'muhtar bizden yana', 'ayağım kaydı', 'pehlivan kim', 'Sivas’tan selam, 1', 'İzmir 2 diyor', 'adımı gördüm'],
+  sahteAd: ['pehlivan_rıza', 'kıvırcık_ayşe', 'istanbul.34', 'zeyno.47', 'urfalı_bekir', 'gülizar_teyze', 'mert.can.21', 'elif_naz', 'dj_mahmut', 'karadenizli.cemo', 'sibel_abla', 'ozan_dayı', 'mardinli_rojin', 'tuğçe.sk', 'hasan.usta', 'pınar_34', 'köyün_delisi', 'berfin_gül', 'yusuf.63', 'nazlı_can', 'ankara_06', 'şahin_k', 'melo.27', 'halatçı_kemal', 'fatoş_01', 'efe_tr', 'cano_23', 'zilan.d', 'hüso_baba', 'ayten_hanım', 'kemo_44', 'deniz.yıldızı', 'rıza_amca', 'sude_nur', 'baran.21', 'ipek_böceği', 'muhtar_emmi', 'selo_02', 'songül.k', 'laz_ziya', 'egeli_duru', 'bozkır_ali', 'nur.sena'],
+  sahteYorum: ['1', '2', '1 çekin!', '2 asılın', 'İstanbul 1', 'Ankara 2 burada', 'hıh hıh hıh', 'çek çek çek', 'bırakmayın!', 'çamura düşecekler', '1 1 1', '2 2 2', 'kolum koptu', 'halat kopacak', 'muhtar bizden yana', 'ayağım kaydı', 'pehlivan kim', 'Sivas’tan selam, 1', 'İzmir 2 diyor', 'adımı gördüm'],
   // Tema koyu orman yeşili: sahne üstü kutular ve yayın masası bundan boyanır, okunur kalır. Çayırın açık yeşilini
   // ve toprağı oyunZemin kendisi çizer (diğer oyunlar gibi; panelRenk çekirdeğin tema testini bozuyor).
   renk: { zemin: '#16261a', zemin2: '#223a26', zemin3: '#35583a', cizgi: '#4a7350', vurgu: '#ffd166', sicak: '#e23d2f', serin: '#3d5bd0', soluk: '#c8d8bf' },
@@ -683,6 +683,8 @@ const OYUN = {
   sahneYazi: { pankart: 'alt' },
   // Müzik: köy şenliği davul zurnası, ama halayın havaları değil: bu oyunun kendi iki havası. Çekiş havası ağır ve
   // vurgulu (her düm bir "hıh!"), Meydan Şenliği hızlı. Yazım docs/MUZIK.md.
+  // Sahnede jeton sayısı yok (TikTok yayın kuralları): sıra kutusunda yalnız adlar, bildirimde etkinin adı.
+  sahneJeton: false,
   muzik: {
     takim: 'davul-zurna',
     havalar: [
@@ -2391,7 +2393,7 @@ function olay(o) {
     // Hediye sevinci: bir sonraki yarım vuruştan başlayıp 4 vuruş sürer (oyun k.zip0–k.zip1 arasında zıplatır).
     k.zip0 = Math.ceil(B * 2) / 2;
     k.zip1 = k.zip0 + 4;
-    bildir(ad, j + ' jeton', kdAd + '!');
+    bildir(ad, OYUN.sahneJeton === false ? '' : j + ' jeton', kdAd + '!');
     muzik.zil(Math.min(1, j / 200));
     // Akış satırı: hediyenin adı ve olayın taşıdığı adet (yoksa yazılmaz), jeton, tetiklenen kademe (25-yazilar.js).
     gunluk('hediye', ad, '', { jeton: j, ad: hd && hd.ad || '', adet: adet > 1 ? adet : 0, kademe: kdAd }, id);
@@ -2437,10 +2439,14 @@ function siraYaz() {
     const ad = document.createElement('span');
     ad.className = 'ad';
     ad.textContent = k.ad;
-    const jt = document.createElement('span');
-    jt.className = 'jt';
-    jt.textContent = k.jeton;
-    li.append(no, ad, jt);
+    li.append(no, ad);
+    // OYUN.sahneJeton === false: sahnede jeton sayısı yazılmaz (yayın masasında yazar)
+    if (OYUN.sahneJeton !== false) {
+      const jt = document.createElement('span');
+      jt.className = 'jt';
+      jt.textContent = k.jeton;
+      li.append(jt);
+    }
     ol.append(li);
   });
 }
@@ -2451,9 +2457,9 @@ function bildir(ad, orta, vurgu) {
     kutu.lastChild.remove();
   bildirimSon = zaman; // aynı anda yağan hediyeler tek satırda yenilenir
   const d = document.createElement('div'), b = document.createElement('b');
-  d.append(ad + ' · ' + orta);
+  d.append(ad + (orta ? ' · ' + orta : ''));
   if (vurgu) {
-    b.textContent = ' ' + vurgu;
+    b.textContent = (orta ? ' ' : ' · ') + vurgu;
     d.append(b);
   }
   kutu.append(d);
@@ -4785,17 +4791,17 @@ queueMicrotask(() => {
 
 /* ── oyunlar/halat-cekme/js/10-durum.js ── */
 /* HALAT ÇEKME DURUMU — iki mahalle, halatın konumu, turlar, hediye etkileri, altın kemer.
- * D'ye eklenenler: ip (halatın ortasındaki kurdelenin x'i; 0 orta, eksi Yukarı Mahalle'nin yanı), itme (halata
- * henüz geçmemiş çekiş, metre), skor ([yukarı, aşağı]), tur ({ durum: 'cekis' | 'bitti' | 'donus', kazanan, bit }),
+ * D'ye eklenenler: ip (halatın ortasındaki kurdelenin x'i; 0 orta, eksi İstanbul'un yanı), itme (halata
+ * henüz geçmemiş çekiş, metre), skor ([İstanbul, Ankara]), tur ({ durum: 'cekis' | 'bitti' | 'donus', kazanan, bit }),
  * hepBit / koyBit (takımın "hep beraber" ve "köy arkanda" etkilerinin bittiği vuruş), pehlivan ({ k, b0 } ya da
  * null), satir (en kalabalık takımın sıra sayısı), _beg (son karede sayılan beğeni).
  * Kancalar: oyunYerlesim, oyunGiris, oyunHediye, oyunLiderDegisti, oyunBaslat, oyunBosalt, oyunDurum.
  */
 
-// Mahalleler: 0 solda (yorumda 1), 1 sağda (yorumda 2). yan: halatı kendi yanına çekmek ip'i bu yöne götürür.
+// Takımlar: 0 solda İstanbul (yorumda 1), 1 sağda Ankara (yorumda 2). yan: halatı kendi yanına çekmek ip'i bu yöne götürür.
 const MAH = [
-  { ad: 'Yukarı Mahalle', kisa: 'YUKARI', no: '1', yan: -1, renk: '#e23d2f', acik: '#f7b9a6', koyu: '#6e1a14' },
-  { ad: 'Aşağı Mahalle', kisa: 'AŞAĞI', no: '2', yan: 1, renk: '#3d5bd0', acik: '#b9c7f4', koyu: '#16265f' }
+  { ad: 'İstanbul', ek: '’a', kisa: 'İSTANBUL', no: '1', yan: -1, renk: '#e23d2f', acik: '#f7b9a6', koyu: '#6e1a14' },
+  { ad: 'Ankara', ek: '’ya', kisa: 'ANKARA', no: '2', yan: 1, renk: '#3d5bd0', acik: '#b9c7f4', koyu: '#16265f' }
 ];
 const SUTUN = 3;          // bir sırada (halatta) bir takımdan kaç kişi: az sütun, çok sıra ki 9:16 kadraj dolsun
 const ARA_X = 0.66;       // halatta iki kişi arası (metre; iri başlar birbirine binmesin)
@@ -4846,7 +4852,7 @@ function formaGiy(k) {
 // balonlar kapalıysa sayı okunamaz, izleyici az kişili takımda kalır.
 function yorumTakim(m) {
   const s = String(m).toLocaleLowerCase('tr');
-  const bir = /(^|[^0-9])1([^0-9]|$)/.test(s) || /kırmızı|yukarı/.test(s), iki = /(^|[^0-9])2([^0-9]|$)/.test(s) || /mavi|aşağı/.test(s);
+  const bir = /(^|[^0-9])1([^0-9]|$)/.test(s) || /kırmızı|istanbul/.test(s), iki = /(^|[^0-9])2([^0-9]|$)/.test(s) || /mavi|ankara/.test(s);
   return bir === iki ? -1 : bir ? 0 : 1;
 }
 function takimDegistir(k, t) {
@@ -4855,7 +4861,7 @@ function takimDegistir(k, t) {
   k.takim = t;
   formaGiy(k);
   oyunYerlesim();
-  bildir(k.ad, MAH[t].ad + '’ye geçti');
+  bildir(k.ad, MAH[t].ad + MAH[t].ek + ' geçti');
 }
 
 // Her takım kendi içinde jetona göre dizilir: en çok atan ipin en önünde (ortaya en yakın, kameraya en yakın sırada).

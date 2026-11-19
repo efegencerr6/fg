@@ -22,11 +22,11 @@ const { sonuc, kontrol } = kontrolcu();
   // yorumdaki sayı takımı seçer, sonradan değiştirir
   await bosalt();
   await O({ tip: 'yorum', kullanici: { id: 'a', ad: 'Ali' }, metin: '1' });
-  await O({ tip: 'yorum', kullanici: { id: 'b', ad: 'Bora' }, metin: '1 yukarı' });
+  await O({ tip: 'yorum', kullanici: { id: 'b', ad: 'Bora' }, metin: '1 istanbul' });
   await O({ tip: 'yorum', kullanici: { id: 'c', ad: 'Cem' }, metin: 'ben 2 deyim' });
   await kare(3);
-  kontrol('Yorumda 1 yazan Yukarı, 2 yazan Aşağı Mahalle’ye girer', (await takim('a')) === 0 && (await takim('b')) === 0 && (await takim('c')) === 1, [await takim('a'), await takim('b'), await takim('c')]);
-  await O({ tip: 'yorum', kullanici: { id: 'b', ad: 'Bora' }, metin: 'aşağı mahalle' });
+  kontrol('Yorumda 1 yazan İstanbul’a, 2 yazan Ankara’ya girer', (await takim('a')) === 0 && (await takim('b')) === 0 && (await takim('c')) === 1, [await takim('a'), await takim('b'), await takim('c')]);
+  await O({ tip: 'yorum', kullanici: { id: 'b', ad: 'Bora' }, metin: 'ankara' });
   await kare(3);
   kontrol('Sonraki yorum takımı değiştirir', (await takim('b')) === 1, await takim('b'));
   await O({ tip: 'yorum', kullanici: { id: 'd', ad: 'Dilan' }, metin: 'selam' });
@@ -46,7 +46,7 @@ const { sonuc, kontrol } = kontrolcu();
   }
   await kare(40);
   const ip1 = await p.evaluate(() => CanliOyun._test.D.ip);
-  kontrol('Yukarı Mahalle’nin beğenisi halatı sola çeker', ip1 < ip0 - 0.05, [ip0, ip1]);
+  kontrol('İstanbul’un beğenisi halatı sola çeker', ip1 < ip0 - 0.05, [ip0, ip1]);
   for (let i = 0; i < 16; i++) {
     await O({ tip: 'yorum', kullanici: { id: 'c', ad: 'Cem' }, metin: 'çek' });
     await O({ tip: 'begeni', kullanici: { id: 'c', ad: 'Cem' }, adet: 10 });
@@ -54,7 +54,7 @@ const { sonuc, kontrol } = kontrolcu();
   }
   await kare(40);
   const ip2 = await p.evaluate(() => CanliOyun._test.D.ip);
-  kontrol('Aşağı Mahalle’nin yorumu ve beğenisi halatı sağa çeker', ip2 > ip1 + 0.05, [ip1, ip2]);
+  kontrol('Ankara’nın yorumu ve beğenisi halatı sağa çeker', ip2 > ip1 + 0.05, [ip1, ip2]);
 
   // her kademe kendi etkisini başlatır
   await bosalt();

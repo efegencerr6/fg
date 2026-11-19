@@ -1,15 +1,15 @@
 /* HALAT ÇEKME DURUMU — iki mahalle, halatın konumu, turlar, hediye etkileri, altın kemer.
- * D'ye eklenenler: ip (halatın ortasındaki kurdelenin x'i; 0 orta, eksi Yukarı Mahalle'nin yanı), itme (halata
- * henüz geçmemiş çekiş, metre), skor ([yukarı, aşağı]), tur ({ durum: 'cekis' | 'bitti' | 'donus', kazanan, bit }),
+ * D'ye eklenenler: ip (halatın ortasındaki kurdelenin x'i; 0 orta, eksi İstanbul'un yanı), itme (halata
+ * henüz geçmemiş çekiş, metre), skor ([İstanbul, Ankara]), tur ({ durum: 'cekis' | 'bitti' | 'donus', kazanan, bit }),
  * hepBit / koyBit (takımın "hep beraber" ve "köy arkanda" etkilerinin bittiği vuruş), pehlivan ({ k, b0 } ya da
  * null), satir (en kalabalık takımın sıra sayısı), _beg (son karede sayılan beğeni).
  * Kancalar: oyunYerlesim, oyunGiris, oyunHediye, oyunLiderDegisti, oyunBaslat, oyunBosalt, oyunDurum.
  */
 
-// Mahalleler: 0 solda (yorumda 1), 1 sağda (yorumda 2). yan: halatı kendi yanına çekmek ip'i bu yöne götürür.
+// Takımlar: 0 solda İstanbul (yorumda 1), 1 sağda Ankara (yorumda 2). yan: halatı kendi yanına çekmek ip'i bu yöne götürür.
 const MAH = [
-  { ad: 'Yukarı Mahalle', kisa: 'YUKARI', no: '1', yan: -1, renk: '#e23d2f', acik: '#f7b9a6', koyu: '#6e1a14' },
-  { ad: 'Aşağı Mahalle', kisa: 'AŞAĞI', no: '2', yan: 1, renk: '#3d5bd0', acik: '#b9c7f4', koyu: '#16265f' }
+  { ad: 'İstanbul', ek: '’a', kisa: 'İSTANBUL', no: '1', yan: -1, renk: '#e23d2f', acik: '#f7b9a6', koyu: '#6e1a14' },
+  { ad: 'Ankara', ek: '’ya', kisa: 'ANKARA', no: '2', yan: 1, renk: '#3d5bd0', acik: '#b9c7f4', koyu: '#16265f' }
 ];
 const SUTUN = 3;          // bir sırada (halatta) bir takımdan kaç kişi: az sütun, çok sıra ki 9:16 kadraj dolsun
 const ARA_X = 0.66;       // halatta iki kişi arası (metre; iri başlar birbirine binmesin)
@@ -60,7 +60,7 @@ function formaGiy(k) {
 // balonlar kapalıysa sayı okunamaz, izleyici az kişili takımda kalır.
 function yorumTakim(m) {
   const s = String(m).toLocaleLowerCase('tr');
-  const bir = /(^|[^0-9])1([^0-9]|$)/.test(s) || /kırmızı|yukarı/.test(s), iki = /(^|[^0-9])2([^0-9]|$)/.test(s) || /mavi|aşağı/.test(s);
+  const bir = /(^|[^0-9])1([^0-9]|$)/.test(s) || /kırmızı|istanbul/.test(s), iki = /(^|[^0-9])2([^0-9]|$)/.test(s) || /mavi|ankara/.test(s);
   return bir === iki ? -1 : bir ? 0 : 1;
 }
 function takimDegistir(k, t) {
@@ -69,7 +69,7 @@ function takimDegistir(k, t) {
   k.takim = t;
   formaGiy(k);
   oyunYerlesim();
-  bildir(k.ad, MAH[t].ad + '’ye geçti');
+  bildir(k.ad, MAH[t].ad + MAH[t].ek + ' geçti');
 }
 
 // Her takım kendi içinde jetona göre dizilir: en çok atan ipin en önünde (ortaya en yakın, kameraya en yakın sırada).
