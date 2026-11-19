@@ -94,6 +94,19 @@ const { sonuc, kontrol } = kontrolcu();
   d = await p.evaluate(() => CanliOyun.durum());
   kontrol('Yeni tur ortadan başlar', Math.abs(d.ip) < 0.05 && d.skor[1] === 1, d);
 
+  // köylüler: meydan boşken iki yanda ikişer, kendileri çeker; izleyici gelince yerlerini bırakır
+  await bosalt();
+  await kareBekle(p, 3);
+  let kd0 = await p.evaluate(() => CanliOyun.durum());
+  kontrol('Meydan boşken her takımda iki köylü var; sıralamaya girmezler', kd0.koylu[0] === 2 && kd0.koylu[1] === 2 && kd0.kisi === 0, [kd0.koylu, kd0.kisi]);
+  await durumBekle(p, 'köylüler halatı oynattı', () => Math.abs(CanliOyun._test.D.ip) > 0.05 || CanliOyun.durum().tur !== 'cekis', undefined, 20000);
+  kontrol('Köylüler meydan boşken de halatı çeker', true);
+  await O({ tip: 'yorum', kullanici: { id: 'k1', ad: 'k1' }, metin: '1' });
+  await O({ tip: 'yorum', kullanici: { id: 'k2', ad: 'k2' }, metin: '1' });
+  await kareBekle(p, 3);
+  kd0 = await p.evaluate(() => CanliOyun.durum());
+  kontrol('Bir takıma iki izleyici gelince o takımın köylüleri çekilir, öbür takımınkiler kalır', kd0.koylu[0] === 0 && kd0.koylu[1] === 2, kd0.koylu);
+
   // olay selinde halat sınırda kalır, sayfa ayakta
   await bosalt();
   const sel = await p.evaluate(() => {

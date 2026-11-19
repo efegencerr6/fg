@@ -656,7 +656,7 @@ const OYUN = {
   id: 'halat-cekme',
   ad: 'Köy Halat Çekme',
   logo: ['Halat', 'Çekme'],
-  nasil: { yorum: 'Yorum: 1 ya da 2 yaz', begeni: 'Beğeni: takımın çeker', hediye: 'Hediye: sert asıl' },
+  nasil: { yorum: 'Katıl: 1 ya da 2 yaz', begeni: 'Beğeni: halatı çek', hediye: 'Hediye: sert asıl' },
   yazi: {
     sira: 'Pehlivanlar', gosterge: 'Coşku', bos: 'Meydan boş. 1 ya da 2 yaz, takımını seç.',
     birim: 'kişi', ses: 'Davul zurnayı başlat', sahne: 'Köy halat çekme sahnesi', giris: 'takımına girer',
@@ -4866,6 +4866,8 @@ function oyunYerlesim() {
     mahalleHazir(k);
     ekip[k.takim].push(k);
   }
+  koyluGuncelle();
+  koyluEkle(ekip);
   let satir = 1;
   ekip.forEach((liste, t) => {
     // pehlivan gösterisi sürerken pehlivan takımının en önüne geçer
@@ -4907,7 +4909,7 @@ function oyunHediye(k, jeton, kd) {
   }
   else if (kd.tip === 'kay') {
     // rakibin ön sırası (ilk üç kişi) kayar, halat bir anda bu yana geçer
-    for (const r of D.oy.values())
+    for (const r of herkes())
       if (r.takim === 1 - t && r.onde < 3)
         r.kay0 = v;
     cekisEkle(yan * 0.45 * kat);
@@ -4949,13 +4951,15 @@ function oyunLiderDegisti(eski, yeni) {
   D.sarsinti = Math.max(D.sarsinti, 0.6);
 }
 function oyunBaslat() {
-  for (const k of D.sira) {
+  oyunYerlesim();
+  for (const k of [...D.sira, ...KOYLULER.filter(k => k.aktif)]) {
     mahalleHazir(k);
     k.x = k.hedefX;
     k.z = k.hedefZ;
     k.yer = 1;
     k.yon = MAH[k.takim].yan > 0 ? -HP : HP;
     k.yeni = -9;
+    k.gorunur = true;
   }
   if (D.lider)
     D.lider.g.kusak = ALTIN;
@@ -4975,6 +4979,7 @@ function oyunBosalt() {
   D.satir = 1;
   D._beg = D.begeni;
   muzik.sov = false;
+  oyunYerlesim();
 }
 function oyunDurum(d) {
   const n = mahalleSay();
@@ -4984,8 +4989,86 @@ function oyunDurum(d) {
   d.kazanan = D.tur.kazanan;
   d.mahalle = n;
   d.pehlivan = D.pehlivan ? D.pehlivan.k.ad : null;
+  d.koylu = [0, 1].map(t => KOYLULER.filter(k => k.aktif && k.takim === t).length);
 }
 function hakemZ() { return (D.satir - 1) * ARA_Z + 1.0; }
+
+/* ── oyunlar/halat-cekme/js/15-koylu.js ── */
+/* KÖYLÜLER — meydan boşken de maç sürsün diye her takımda iki köylü (oyunun kendi karakteri, izleyici değil).
+ * Bir takımda gerçek izleyici ikiden azsa eksik kadar köylü halata geçer ve kendiliğinden asılır; izleyici geldikçe
+ * köylüler sahneden çıkar. Köylüler D.oy'da durmaz: sıralamaya, lider tablosuna, jetona girmez; adları hakem gibi
+ * oyunEkAdlar'dan, "özel" etiketle (vurgu renginde) gelir. Gerçek yayında da görünürler: sahte izleyici değil, köyün
+ * kendi pehlivanlarıdır (çekirdeğin sahte izleyicisi gerçek yayında yine kapalıdır).
+ * herkes(): sahnedeki izleyiciler + görünen köylüler · koyluGuncelle(): hangi köylü sahnede · koyluCek(): kendi çekişleri
+ */
+const KOYLU_SAYI = 2;
+const KOYLULER = [[0, 'Muhtar', 'kasket', true], [0, 'Demirci', 'bere', true], [1, 'Bekçi', 'kasket', true], [1, 'Çoban', 'bere', false]].map(([t, ad, baslik, biyik], i) => {
+  const k = karakterYap('__koylu' + i, ad);
+  Object.assign(k, { mod: 'koylu', ozel: true, takim: t, _son: -1, _balonT: -1, kay0: -9, cek0: -9, aktif: false, gorunur: false, cikiyor: true, gitti: true });
+  Object.assign(k.g, { kadin: false, baslik, biyik, boy: 1.04 + i * 0.03 });
+  k.g0 = { yelek: k.g.yelek, gomlek: k.g.gomlek, kusak: k.g.kusak, boy: k.g.boy, baslik };
+  k.x = MAH[t].yan * 7.6;
+  formaGiy(k);
+  return k;
+});
+Object.assign(D, { koyluYan: 0, _koyluB: -1 });
+
+function herkes() {
+  const l = [...D.oy.values()];
+  for (const k of KOYLULER)
+    if (k.gorunur)
+      l.push(k);
+  return l;
+}
+// İzleyici sayısına göre her takımda kaç köylü kalacağını seçer; çıkan köylü kendi yanından sahneyi terk eder.
+function koyluGuncelle() {
+  const n = mahalleSay(), say = [0, 0];
+  for (const k of KOYLULER) {
+    const aktif = say[k.takim] < KOYLU_SAYI - n[k.takim];
+    say[k.takim]++;
+    if (aktif && !k.aktif) {
+      k.cikiyor = false;
+      k.gitti = false;
+      k.yer = 0;
+      k.x = MAH[k.takim].yan * 7;
+    }
+    if (!aktif && k.aktif)
+      k.cikiyor = true;
+    k.aktif = aktif;
+  }
+}
+// Köylüler takımın en arkasında durur; izleyiciler önde.
+function koyluEkle(ekip) {
+  for (const k of KOYLULER)
+    if (k.aktif)
+      ekip[k.takim].push(k);
+}
+// Köylülerin çekişi: her vuruşta yarı yarıya asılırlar; sekiz vuruşta bir şans bir takımdan yana döner, böylece
+// meydan boşken de kurdele bir yana kayar, tur yaklaşık bir dakikada biter. İzleyicinin çekişi bundan güçlüdür.
+function koyluCek() {
+  const v = Math.floor(B);
+  if (v === D._koyluB || D.tur.durum !== 'cekis')
+    return;
+  D._koyluB = v;
+  if (v % 8 === 0)
+    D.koyluYan = Math.random() < 0.5 ? 0 : 1;
+  for (const k of KOYLULER) {
+    if (!k.aktif || k.yer < 0.5)
+      continue;
+    if (Math.random() < (k.takim === D.koyluYan ? 0.68 : 0.32)) {
+      cekisEkle(MAH[k.takim].yan * 0.06);
+      k.cek0 = B;
+    }
+  }
+}
+function koyluHareket(dt) {
+  for (const k of KOYLULER) {
+    if (!k.gorunur && !k.aktif)
+      continue;
+    karakterHareket(k, dt);
+    k.gorunur = k.aktif || !k.gitti;
+  }
+}
 
 /* ── oyunlar/halat-cekme/js/20-hareket.js ── */
 /* HALAT ÇEKME HAREKETİ — çekişlerin halata geçmesi, turun bitmesi ve yeniden başlaması, herkesin pozu.
@@ -5042,7 +5125,7 @@ function halatIlerle(dt) {
     D.ip += (Math.sign(D.ip) * (KAZAN + 0.12) - D.ip) * Math.min(1, dt * 3);
     if (B >= tur.bit) {
       tur.durum = 'donus';
-      for (const k of D.oy.values())
+      for (const k of herkes())
         k.dus = false;
     }
   }
@@ -5064,7 +5147,7 @@ function turBitir(t) {
   D.itme = 0;
   D.skor[t]++;
   // kaybedenin ön sırası çamura düşer, kazananlar halatı bırakıp sevinir
-  for (const k of D.oy.values()) {
+  for (const k of herkes()) {
     if (k.takim === 1 - t && k.onde < SUTUN)
       k.dus = true;
     if (k.takim === t) {
@@ -5114,8 +5197,10 @@ function oyunGuncelle(dt) {
   pehlivanIlerle();
   halatIlerle(dt);
   muzik.sov = B < Math.max(D.koyBit[0], D.koyBit[1]);
+  koyluCek();
   for (const k of D.oy.values())
     karakterHareket(k, dt);
+  koyluHareket(dt);
   hakemHareket(dt);
 }
 
@@ -5233,7 +5318,11 @@ function hakemHareket(dt) {
 // Kadraj: iki takımın en geniş hâli kadar (en az iki sütun), arka sıraya ve hakeme kadar. Halat kayınca takımlar
 // da kaydığı için kenara kurdelenin en çok kayacağı kadar pay eklenir.
 function oyunKamera() {
-  const n = mahalleSay(), sutun = clamp(Math.max(n[0], n[1], 2), 2, SUTUN);
+  const n = [0, 0];
+  for (const k of herkes())
+    if (!k.cikiyor)
+      n[k.takim]++;
+  const sutun = clamp(Math.max(n[0], n[1], 2), 2, SUTUN);
   const w = ON_BOS + (sutun - 1) * ARA_X + (D.satir > 1 ? ARA_X / 2 : 0) + KAZAN * 0.6;
   const arka = (D.satir - 1) * ARA_Z;
   return { noktalar: [[-w, 0], [w, 0], [-w, arka], [w, arka], [0, hakemZ()]], x: 0, ustPx: 36 };
@@ -5320,7 +5409,7 @@ function oyunZemin() {
     // çizginin önünde mahallenin rengi
     yerCokgen([[x - 0.18, -0.85], [x + 0.18, -0.85], [x + 0.18, -0.68], [x - 0.18, -0.68]], MAH[yan < 0 ? 0 : 1].renk);
   }
-  for (const k of D.oy.values())
+  for (const k of herkes())
     if (!k.dus)
       golge(k.x, k.z, 0.27 * k.g.boy, 0.13 * k.g.boy);
   golge(hakem.x, hakem.z, 0.27 * hakem.g.boy, 0.13 * hakem.g.boy);
@@ -5339,7 +5428,7 @@ function oyunZemin() {
 }
 
 function oyunCiz() {
-  for (const k of D.oy.values())
+  for (const k of herkes())
     insanEkle(k);
   if (insanEkle(hakem))
     bayrakCiz();
@@ -5356,7 +5445,7 @@ function halatlarCiz() {
   for (let s = 0; s < D.satir; s++) {
     const z = s * ARA_Z - 0.16;
     let sol = null, sag = null;
-    for (const k of D.oy.values()) {
+    for (const k of herkes()) {
       if (k.sira !== s || k.yer < 0.5 || k.cikiyor || k.dus)
         continue;
       if (k.takim === 0)
@@ -5531,7 +5620,48 @@ function camurSicrat(yan) {
   for (let i = 0; i < 26; i++)
     camurDamla.push({ x: yan * (0.2 + Math.random() * 0.4), y: 0.05, z: Math.random() * (arka + 0.2), vx: (Math.random() - 0.5) * 1.6, vy: 1.6 + Math.random() * 1.8, vz: (Math.random() - 0.6) * 1.2, r: 0.03 + Math.random() * 0.05 });
 }
+// Sahne üstü hediye tablosu: sağ üstte, coşku göstergesinin altındaki boş yerde. İzleyici hangi hediyenin ne
+// yaptığını yayında görür (masadaki "Bu oyunda hediyeler" listesinin sahnedeki kısa hâli). Metinler OYUN.kademe'den.
+const TABLO = { x: 456, y: 380, w: 242, satir: 19 };
+function hediyeTablosu() {
+  const kd = OYUN.kademe.slice().sort((a, b) => a.min - b.min), T = TABLO, h = 26 + kd.length * T.satir;
+  c.save();
+  c.fillStyle = 'rgba(14,24,16,0.72)';
+  c.beginPath();
+  c.roundRect(T.x, T.y, T.w, h, 12);
+  c.fill();
+  c.textBaseline = 'middle';
+  c.textAlign = 'left';
+  c.font = '700 14px Rubik, system-ui, sans-serif';
+  c.fillStyle = RENK.vurgu;
+  c.fillText('HEDİYELER', T.x + 12, T.y + 14);
+  c.textAlign = 'right';
+  c.fillStyle = 'rgba(246,236,217,0.75)';
+  c.font = '600 12px Rubik, system-ui, sans-serif';
+  c.fillText('jeton', T.x + T.w - 12, T.y + 14);
+  kd.forEach((k, i) => {
+    const y = T.y + 34 + i * T.satir, nabiz = i === kd.length - 1 ? 1 + 0.12 * calgi.dumP : 1;
+    // jeton: küçük altın daire
+    c.fillStyle = '#f2b632';
+    c.beginPath();
+    c.arc(T.x + 18, y, 6.5 * nabiz, 0, TAU);
+    c.fill();
+    c.strokeStyle = '#8a5a12';
+    c.lineWidth = 1.5;
+    c.stroke();
+    c.textAlign = 'left';
+    c.font = '700 14px Rubik, system-ui, sans-serif';
+    c.fillStyle = '#fff4dc';
+    c.fillText(k.min + '+', T.x + 30, y);
+    c.font = '600 14px Rubik, system-ui, sans-serif';
+    c.fillStyle = i === kd.length - 1 ? RENK.vurgu : '#e9f0d0';
+    c.textAlign = 'right';
+    c.fillText(k.ad, T.x + T.w - 12, y);
+  });
+  c.restore();
+}
 function oyunUst(dt) {
+  hediyeTablosu();
   for (let i = camurDamla.length - 1; i >= 0; i--) {
     const d = camurDamla[i];
     d.vy -= 9 * dt;
@@ -5551,7 +5681,7 @@ function oyunUst(dt) {
     }
   }
 }
-function oyunEkAdlar() { return [hakem]; }
+function oyunEkAdlar() { return [hakem, ...KOYLULER.filter(k => k.gorunur)]; }
 })();
 </script>
 </body>

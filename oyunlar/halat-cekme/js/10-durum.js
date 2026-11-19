@@ -80,6 +80,8 @@ function oyunYerlesim() {
     mahalleHazir(k);
     ekip[k.takim].push(k);
   }
+  koyluGuncelle();
+  koyluEkle(ekip);
   let satir = 1;
   ekip.forEach((liste, t) => {
     // pehlivan gösterisi sürerken pehlivan takımının en önüne geçer
@@ -121,7 +123,7 @@ function oyunHediye(k, jeton, kd) {
   }
   else if (kd.tip === 'kay') {
     // rakibin ön sırası (ilk üç kişi) kayar, halat bir anda bu yana geçer
-    for (const r of D.oy.values())
+    for (const r of herkes())
       if (r.takim === 1 - t && r.onde < 3)
         r.kay0 = v;
     cekisEkle(yan * 0.45 * kat);
@@ -163,13 +165,15 @@ function oyunLiderDegisti(eski, yeni) {
   D.sarsinti = Math.max(D.sarsinti, 0.6);
 }
 function oyunBaslat() {
-  for (const k of D.sira) {
+  oyunYerlesim();
+  for (const k of [...D.sira, ...KOYLULER.filter(k => k.aktif)]) {
     mahalleHazir(k);
     k.x = k.hedefX;
     k.z = k.hedefZ;
     k.yer = 1;
     k.yon = MAH[k.takim].yan > 0 ? -HP : HP;
     k.yeni = -9;
+    k.gorunur = true;
   }
   if (D.lider)
     D.lider.g.kusak = ALTIN;
@@ -189,6 +193,7 @@ function oyunBosalt() {
   D.satir = 1;
   D._beg = D.begeni;
   muzik.sov = false;
+  oyunYerlesim();
 }
 function oyunDurum(d) {
   const n = mahalleSay();
@@ -198,5 +203,6 @@ function oyunDurum(d) {
   d.kazanan = D.tur.kazanan;
   d.mahalle = n;
   d.pehlivan = D.pehlivan ? D.pehlivan.k.ad : null;
+  d.koylu = [0, 1].map(t => KOYLULER.filter(k => k.aktif && k.takim === t).length);
 }
 function hakemZ() { return (D.satir - 1) * ARA_Z + 1.0; }

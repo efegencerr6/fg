@@ -52,7 +52,7 @@ function halatIlerle(dt) {
     D.ip += (Math.sign(D.ip) * (KAZAN + 0.12) - D.ip) * Math.min(1, dt * 3);
     if (B >= tur.bit) {
       tur.durum = 'donus';
-      for (const k of D.oy.values())
+      for (const k of herkes())
         k.dus = false;
     }
   }
@@ -74,7 +74,7 @@ function turBitir(t) {
   D.itme = 0;
   D.skor[t]++;
   // kaybedenin ön sırası çamura düşer, kazananlar halatı bırakıp sevinir
-  for (const k of D.oy.values()) {
+  for (const k of herkes()) {
     if (k.takim === 1 - t && k.onde < SUTUN)
       k.dus = true;
     if (k.takim === t) {
@@ -124,8 +124,10 @@ function oyunGuncelle(dt) {
   pehlivanIlerle();
   halatIlerle(dt);
   muzik.sov = B < Math.max(D.koyBit[0], D.koyBit[1]);
+  koyluCek();
   for (const k of D.oy.values())
     karakterHareket(k, dt);
+  koyluHareket(dt);
   hakemHareket(dt);
 }
 
@@ -243,7 +245,11 @@ function hakemHareket(dt) {
 // Kadraj: iki takımın en geniş hâli kadar (en az iki sütun), arka sıraya ve hakeme kadar. Halat kayınca takımlar
 // da kaydığı için kenara kurdelenin en çok kayacağı kadar pay eklenir.
 function oyunKamera() {
-  const n = mahalleSay(), sutun = clamp(Math.max(n[0], n[1], 2), 2, SUTUN);
+  const n = [0, 0];
+  for (const k of herkes())
+    if (!k.cikiyor)
+      n[k.takim]++;
+  const sutun = clamp(Math.max(n[0], n[1], 2), 2, SUTUN);
   const w = ON_BOS + (sutun - 1) * ARA_X + (D.satir > 1 ? ARA_X / 2 : 0) + KAZAN * 0.6;
   const arka = (D.satir - 1) * ARA_Z;
   return { noktalar: [[-w, 0], [w, 0], [-w, arka], [w, arka], [0, hakemZ()]], x: 0, ustPx: 36 };

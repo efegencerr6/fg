@@ -78,7 +78,7 @@ function oyunZemin() {
     // çizginin önünde mahallenin rengi
     yerCokgen([[x - 0.18, -0.85], [x + 0.18, -0.85], [x + 0.18, -0.68], [x - 0.18, -0.68]], MAH[yan < 0 ? 0 : 1].renk);
   }
-  for (const k of D.oy.values())
+  for (const k of herkes())
     if (!k.dus)
       golge(k.x, k.z, 0.27 * k.g.boy, 0.13 * k.g.boy);
   golge(hakem.x, hakem.z, 0.27 * hakem.g.boy, 0.13 * hakem.g.boy);
@@ -97,7 +97,7 @@ function oyunZemin() {
 }
 
 function oyunCiz() {
-  for (const k of D.oy.values())
+  for (const k of herkes())
     insanEkle(k);
   if (insanEkle(hakem))
     bayrakCiz();
@@ -114,7 +114,7 @@ function halatlarCiz() {
   for (let s = 0; s < D.satir; s++) {
     const z = s * ARA_Z - 0.16;
     let sol = null, sag = null;
-    for (const k of D.oy.values()) {
+    for (const k of herkes()) {
       if (k.sira !== s || k.yer < 0.5 || k.cikiyor || k.dus)
         continue;
       if (k.takim === 0)
@@ -289,7 +289,48 @@ function camurSicrat(yan) {
   for (let i = 0; i < 26; i++)
     camurDamla.push({ x: yan * (0.2 + Math.random() * 0.4), y: 0.05, z: Math.random() * (arka + 0.2), vx: (Math.random() - 0.5) * 1.6, vy: 1.6 + Math.random() * 1.8, vz: (Math.random() - 0.6) * 1.2, r: 0.03 + Math.random() * 0.05 });
 }
+// Sahne üstü hediye tablosu: sağ üstte, coşku göstergesinin altındaki boş yerde. İzleyici hangi hediyenin ne
+// yaptığını yayında görür (masadaki "Bu oyunda hediyeler" listesinin sahnedeki kısa hâli). Metinler OYUN.kademe'den.
+const TABLO = { x: 456, y: 380, w: 242, satir: 19 };
+function hediyeTablosu() {
+  const kd = OYUN.kademe.slice().sort((a, b) => a.min - b.min), T = TABLO, h = 26 + kd.length * T.satir;
+  c.save();
+  c.fillStyle = 'rgba(14,24,16,0.72)';
+  c.beginPath();
+  c.roundRect(T.x, T.y, T.w, h, 12);
+  c.fill();
+  c.textBaseline = 'middle';
+  c.textAlign = 'left';
+  c.font = '700 14px Rubik, system-ui, sans-serif';
+  c.fillStyle = RENK.vurgu;
+  c.fillText('HEDİYELER', T.x + 12, T.y + 14);
+  c.textAlign = 'right';
+  c.fillStyle = 'rgba(246,236,217,0.75)';
+  c.font = '600 12px Rubik, system-ui, sans-serif';
+  c.fillText('jeton', T.x + T.w - 12, T.y + 14);
+  kd.forEach((k, i) => {
+    const y = T.y + 34 + i * T.satir, nabiz = i === kd.length - 1 ? 1 + 0.12 * calgi.dumP : 1;
+    // jeton: küçük altın daire
+    c.fillStyle = '#f2b632';
+    c.beginPath();
+    c.arc(T.x + 18, y, 6.5 * nabiz, 0, TAU);
+    c.fill();
+    c.strokeStyle = '#8a5a12';
+    c.lineWidth = 1.5;
+    c.stroke();
+    c.textAlign = 'left';
+    c.font = '700 14px Rubik, system-ui, sans-serif';
+    c.fillStyle = '#fff4dc';
+    c.fillText(k.min + '+', T.x + 30, y);
+    c.font = '600 14px Rubik, system-ui, sans-serif';
+    c.fillStyle = i === kd.length - 1 ? RENK.vurgu : '#e9f0d0';
+    c.textAlign = 'right';
+    c.fillText(k.ad, T.x + T.w - 12, y);
+  });
+  c.restore();
+}
 function oyunUst(dt) {
+  hediyeTablosu();
   for (let i = camurDamla.length - 1; i >= 0; i--) {
     const d = camurDamla[i];
     d.vy -= 9 * dt;
@@ -309,4 +350,4 @@ function oyunUst(dt) {
     }
   }
 }
-function oyunEkAdlar() { return [hakem]; }
+function oyunEkAdlar() { return [hakem, ...KOYLULER.filter(k => k.gorunur)]; }

@@ -9,7 +9,7 @@ const OYUN = {
   id: 'halat-cekme',
   ad: 'Köy Halat Çekme',
   logo: ['Halat', 'Çekme'],
-  nasil: { yorum: 'Yorum: 1 ya da 2 yaz', begeni: 'Beğeni: takımın çeker', hediye: 'Hediye: sert asıl' },
+  nasil: { yorum: 'Katıl: 1 ya da 2 yaz', begeni: 'Beğeni: halatı çek', hediye: 'Hediye: sert asıl' },
   yazi: {
     sira: 'Pehlivanlar', gosterge: 'Coşku', bos: 'Meydan boş. 1 ya da 2 yaz, takımını seç.',
     birim: 'kişi', ses: 'Davul zurnayı başlat', sahne: 'Köy halat çekme sahnesi', giris: 'takımına girer',
