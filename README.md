@@ -20,8 +20,6 @@ TikTok canlı yayınlarında izleyicilerin oynadığı dikey oyunlar için bir d
 
 Bu proje TikTok ile bağlantılı değildir ve TikTok tarafından onaylanmamıştır.
 
-Kaynak: Bu depo, Furkan Cavlak'ın [tiktok-oyun-fabrikasi](https://github.com/furkancavlak/tiktok-oyun-fabrikasi) deposu üzerine kuruludur (MIT lisansı, `LICENSE`). Köy Halat Çekme ve Dolmuş oyunları bu depoda eklendi.
-
 ## Ne var
 
 | Parça | Yer | Ne yapar |
@@ -150,7 +148,9 @@ Sahne 720x1280 sanal ölçekte çizilir, TikTok'un dikey yayınına göre. Alt k
 
 ## Lisans
 
-Bu deponun kendi kodu MIT lisanslıdır. Ayrıntı `LICENSE` dosyasında.
+Bu deponun kendi kodu MIT lisanslıdır. Ayrıntı `LICENSE` dosyasında. TikTok furkanxtopal Sistemi, Köy Halat Çekme ve
+Dolmuş: furkanxtopal. Çekirdek fabrika, [tiktok-oyun-fabrikasi](https://github.com/furkancavlak/tiktok-oyun-fabrikasi)
+deposundan (Furkan Cavlak ve katkıcılar) alınmıştır.
 
 TikTok bağlantısını kuran `tiktok-live-connector` ve `tiktok-live-proto` kütüphaneleri bu deponun parçası değildir ve
 AGPL-3.0 lisanslıdır. Kaynak koddan kurarken onları npm indirir; hazır Windows paketi ise ikisini de kaynak kodu ve lisans
