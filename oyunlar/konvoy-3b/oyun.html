@@ -53909,7 +53909,7 @@ const OYUN = {
   id: 'konvoy-3b',
   ad: 'Gelin Konvoyu 3B',
   logo: ['Gelin', 'Konvoyu'],
-  nasil: { yorum: 'Yorum: konvoya katıl', begeni: 'Beğeni: gaz', hediye: 'Hediye: gelin arabası' },
+  nasil: { yorum: 'Yorum: konvoya katıl', begeni: 'Beğeni: gaz', hediye: '' },
   yazi: {
     sira: 'Konvoy sırası', gosterge: 'Gaz', bos: 'Yol boş. İlk yazan gelin arabasına biner.',
     birim: 'araba', ses: 'Düğün havasını başlat', sahne: 'Gelin konvoyu sahnesi (3B)', giris: 'konvoya katılır', bosalt: 'Yolu boşalt'
@@ -53939,6 +53939,8 @@ const OYUN = {
   sahneYazi: { pankart: 'alt' },
   // Müzik: düğün oyun havası (darbuka, def zili, klarnet, alttan bas). Gelin Konvoyu'nun iki havası, aynı oyunun
   // 3B baskısı olduğu için aynen. Yazım docs/MUZIK.md. Tempo konvoyun hızını ve rejinin kesmelerini belirler.
+  // Sahnede jeton sayısı yok (TikTok yayın kuralları): sıra kutusunda yalnız adlar, bildirimde etkinin adı.
+  sahneJeton: false,
   muzik: {
     takim: 'dugun',
     havalar: [
@@ -55675,7 +55677,7 @@ function olay(o) {
     // Hediye sevinci: bir sonraki yarım vuruştan başlayıp 4 vuruş sürer (oyun k.zip0–k.zip1 arasında zıplatır).
     k.zip0 = Math.ceil(B * 2) / 2;
     k.zip1 = k.zip0 + 4;
-    bildir(ad, j + ' jeton', kdAd + '!');
+    bildir(ad, OYUN.sahneJeton === false ? '' : j + ' jeton', kdAd + '!');
     muzik.zil(Math.min(1, j / 200));
     // Akış satırı: hediyenin adı ve olayın taşıdığı adet (yoksa yazılmaz), jeton, tetiklenen kademe (25-yazilar.js).
     gunluk('hediye', ad, '', { jeton: j, ad: hd && hd.ad || '', adet: adet > 1 ? adet : 0, kademe: kdAd }, id);
@@ -55721,10 +55723,14 @@ function siraYaz() {
     const ad = document.createElement('span');
     ad.className = 'ad';
     ad.textContent = k.ad;
-    const jt = document.createElement('span');
-    jt.className = 'jt';
-    jt.textContent = k.jeton;
-    li.append(no, ad, jt);
+    li.append(no, ad);
+    // OYUN.sahneJeton === false: sahnede jeton sayısı yazılmaz (yayın masasında yazar)
+    if (OYUN.sahneJeton !== false) {
+      const jt = document.createElement('span');
+      jt.className = 'jt';
+      jt.textContent = k.jeton;
+      li.append(jt);
+    }
     ol.append(li);
   });
 }
@@ -55735,9 +55741,9 @@ function bildir(ad, orta, vurgu) {
     kutu.lastChild.remove();
   bildirimSon = zaman; // aynı anda yağan hediyeler tek satırda yenilenir
   const d = document.createElement('div'), b = document.createElement('b');
-  d.append(ad + ' · ' + orta);
+  d.append(ad + (orta ? ' · ' + orta : ''));
   if (vurgu) {
-    b.textContent = ' ' + vurgu;
+    b.textContent = (orta ? ' ' : ' · ') + vurgu;
     d.append(b);
   }
   kutu.append(d);
@@ -61791,7 +61797,7 @@ function oyunKamera() { return [[0, 0]]; }
 
 // WebGL yok: sahnede ne olduğunu düz Türkçeyle söyleyen bir kart (kurallar, sıralama, yazılar yine çalışır).
 const WEBGL_YOK = ['Bu oyun 3B çizilir:', 'ekran kartı (WebGL) gerekir.', '', 'Bu bilgisayarda ya da tarayıcıda', 'WebGL kapalı.', '',
-  'Tarayıcı ayarlarında "donanım', 'hızlandırması"nı açın ya da 2B', 'oyunlardan birini yayına verin:', 'Gelin Konvoyu, Mendil Kimde?', 've Vur Düzelsin!'];
+  'Tarayıcı ayarlarında "donanım', 'hızlandırması"nı açın ya da 2B', 'oyunlardan birini yayına verin:', 'Gelin Konvoyu, Mendil Kimde?,', 'Halat Çekme ya da Dolmuş.'];
 function webglYok() {
   const g = c.createLinearGradient(0, 0, 0, GH);
   g.addColorStop(0, GOK.ust);
@@ -61987,7 +61993,7 @@ function kaliteOlc() {
       else if (!KALITE.yavas) {
         KALITE.yavas = true;
         KALITE.sahneUyari = { b0: zaman };
-        kaliteUyar('Bu bilgisayarın ekran kartı 3B sahneye yetişmiyor (kare başına yaklaşık ' + Math.round(KALITE.aralik) + ' ms; akıcı görüntü için 33 ms altı gerekir). Kalite en düşükte. Tarayıcının donanım hızlandırmasını açın ya da 2B oyunlardan birini yayına verin (Gelin Konvoyu, Mendil Kimde?, Vur Düzelsin!).');
+        kaliteUyar('Bu bilgisayarın ekran kartı 3B sahneye yetişmiyor (kare başına yaklaşık ' + Math.round(KALITE.aralik) + ' ms; akıcı görüntü için 33 ms altı gerekir). Kalite en düşükte. Tarayıcının donanım hızlandırmasını açın ya da 2B oyunlardan birini yayına verin (Gelin Konvoyu, Mendil Kimde?, Köy Halat Çekme, Dolmuş).');
       }
     }
     return;

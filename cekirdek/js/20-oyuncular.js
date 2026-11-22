@@ -178,7 +178,7 @@ function olay(o) {
     // Hediye sevinci: bir sonraki yarım vuruştan başlayıp 4 vuruş sürer (oyun k.zip0–k.zip1 arasında zıplatır).
     k.zip0 = Math.ceil(B * 2) / 2;
     k.zip1 = k.zip0 + 4;
-    bildir(ad, j + ' jeton', kdAd + '!');
+    bildir(ad, OYUN.sahneJeton === false ? '' : j + ' jeton', kdAd + '!');
     muzik.zil(Math.min(1, j / 200));
     // Akış satırı: hediyenin adı ve olayın taşıdığı adet (yoksa yazılmaz), jeton, tetiklenen kademe (25-yazilar.js).
     gunluk('hediye', ad, '', { jeton: j, ad: hd && hd.ad || '', adet: adet > 1 ? adet : 0, kademe: kdAd }, id);

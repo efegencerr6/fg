@@ -1,9 +1,9 @@
-# TikTok Oyun Fabrikası
+# TikTok furkanxtopal Sistemi
 
 ## İndir
 
-**Windows (kurulum yok):** [Releases](https://github.com/furkancavlak/tiktok-oyun-fabrikasi/releases) sayfasından
-`tiktok-oyun-fabrikasi-…-windows-x64.zip` dosyasını indir, bir klasöre çıkar (sağ tık → **Tümünü ayıkla**) ve
+**Windows (kurulum yok):** [Releases](https://github.com/topalxfurkan/furkanxtopalsistem/releases) sayfasından
+`furkanxtopalsistem-…-windows-x64.zip` dosyasını indir, bir klasöre çıkar (sağ tık → **Tümünü ayıkla**) ve
 içindeki `BASLAT.bat` dosyasına çift tıkla. Node.js ve TikTok kütüphanesi paketin içindedir; hiçbir şey kurman
 gerekmez. Windows, internetten inen bir dosyayı ilk açılışta uyarabilir; uyarırsa **Ek bilgi → Yine de çalıştır**.
 ZIP'in içinden, çıkarmadan çift tıklarsan `BASLAT.bat` önce klasöre çıkarmanı söyler.
@@ -26,6 +26,8 @@ Bu proje TikTok ile bağlantılı değildir ve TikTok tarafından onaylanmamış
 | --- | --- | --- |
 | Çekirdek | `cekirdek/` | Her oyunda aynı kalan iş: sahne, izleyici sırası, coşku göstergesi, hediye kademeleri, lider tablosu, müzik saati, yayın masası (deneme ve moderasyon paneli), testler |
 | Örnek oyun | `oyunlar/halay/` | "Mendil Kimde?": bir halay oyunu. Yorum yazan halaya girer, en çok hediye atan halay başı olur |
+| Köy Halat Çekme | `oyunlar/halat-cekme/` | Yorumda 1 yazan İstanbul'a, 2 yazan Ankara'ya geçer; takımın beğenisi ve hediyesi halatı çeker, önü çamura düşen turu kaybeder |
+| Dolmuş | `oyunlar/dolmus/` | Yorum yazan dolmuşa biner, beğeni gaza bastırır, en çok hediye atan şoför olur; hediyeler korna, fren, kaset, viraj yaptırır, en büyüğünde dolmuş uçar |
 | Şablon | `sablon/` | Çalışan en küçük oyun. Yeni oyun buradan kopyalanır |
 | Köprü | `kopru.js` | Bir TikTok canlı yayınını okur ve olayları oyun sayfasına iletir |
 | Araçlar | `araclar/` | Derleme, test, ekran görüntüsü, yeni oyun açma, yayıncı paketi, müzik hazırlama |
@@ -51,7 +53,7 @@ Gerekenler: Node.js 18 veya üstü (https://nodejs.org, LTS sürümü).
 4. Oyunların motoru arka planda, penceresiz çalışır. Çift tıklayınca bir an siyah bir pencere görünür; motor hazır
    olunca kendiliğinden kapanır. Ana sayfanın altındaki **Motoru kapat** motoru durdurur; sayfa "Motor durdu."
    der ve **Başlat** düğmesi çıkar, ona basınca salon aynı sekmede geri gelir. O sekmeyi kapatınca motor iki üç
-   dakika içinde tamamen kapanır. Tarayıcıda oyun fabrikasının hiçbir sayfası açık değilse motor 10 dakika sonra
+   dakika içinde tamamen kapanır. Tarayıcıda sistemin hiçbir sayfası açık değilse motor 10 dakika sonra
    kendiliğinden de kapanır. Motor
    açılamazsa siyah pencere kapanmaz, nedenini yazar. Oyundan ana sayfaya **← Oyunlar** bağlantısıyla dönülür.
 
@@ -131,7 +133,7 @@ Sahne 720x1280 sanal ölçekte çizilir, TikTok'un dikey yayınına göre. Alt k
 - Köprü resmî olmayan `tiktok-live-connector` kütüphanesini kullanır. Kütüphane imza için üçüncü taraf bir servise (Euler Stream) dayanır. Servis ücretsiz kullanımı sınırlayabilir ya da durdurabilir.
 - TikTok, canlı yayın yorumlarını ve hediyelerini okumak için resmî bir açık API sunmuyor. TikTok bir gün bu yolu kapatırsa köprü çalışmaz.
 - Telefondan yayın desteklenmiyor. Yayın bilgisayardan yapılır ve hesapta TikTok LIVE Studio erişimi gerekir.
-- Depoda müzik dosyası yok. Her oyun kendi müziğini üretir: halay davul zurna, gelin konvoyu darbuka ve klarnet, Vur Düzelsin seksenlerin televizyon spor jeneriği. İstersen bir oyuna kendi parçalarını yerelde ekleyebilirsin (`oyunlar/<ad>/muzik/`, `docs/MUZIK.md`); bunlar depoya girmez.
+- Depoda müzik dosyası yok. Her oyun kendi müziğini üretir: halay ve halat çekme davul zurna (her biri kendi havalarıyla), gelin konvoyu ve dolmuş darbuka ve klarnet. İstersen bir oyuna kendi parçalarını yerelde ekleyebilirsin (`oyunlar/<ad>/muzik/`, `docs/MUZIK.md`); bunlar depoya girmez.
 - Doğrulama durumu için `docs/YAYIN.md` sonundaki tabloya bak: gerçek yayın okuma bir kez denendi, LIVE Studio yakalama henüz denenmedi.
 
 ## Belgeler
@@ -146,7 +148,9 @@ Sahne 720x1280 sanal ölçekte çizilir, TikTok'un dikey yayınına göre. Alt k
 
 ## Lisans
 
-Bu deponun kendi kodu MIT lisanslıdır. Ayrıntı `LICENSE` dosyasında.
+Bu deponun kendi kodu MIT lisanslıdır. Ayrıntı `LICENSE` dosyasında. TikTok furkanxtopal Sistemi, Köy Halat Çekme ve
+Dolmuş: furkanxtopal. Çekirdek fabrika, [tiktok-oyun-fabrikasi](https://github.com/furkancavlak/tiktok-oyun-fabrikasi)
+deposundan (Furkan Cavlak ve katkıcılar) alınmıştır.
 
 TikTok bağlantısını kuran `tiktok-live-connector` ve `tiktok-live-proto` kütüphaneleri bu deponun parçası değildir ve
 AGPL-3.0 lisanslıdır. Kaynak koddan kurarken onları npm indirir; hazır Windows paketi ise ikisini de kaynak kodu ve lisans

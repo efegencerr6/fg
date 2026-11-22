@@ -16,7 +16,7 @@ const OYUN = {
   id: 'konvoy-3b',
   ad: 'Gelin Konvoyu 3B',
   logo: ['Gelin', 'Konvoyu'],
-  nasil: { yorum: 'Yorum: konvoya katıl', begeni: 'Beğeni: gaz', hediye: 'Hediye: gelin arabası' },
+  nasil: { yorum: 'Yorum: konvoya katıl', begeni: 'Beğeni: gaz', hediye: '' },
   yazi: {
     sira: 'Konvoy sırası', gosterge: 'Gaz', bos: 'Yol boş. İlk yazan gelin arabasına biner.',
     birim: 'araba', ses: 'Düğün havasını başlat', sahne: 'Gelin konvoyu sahnesi (3B)', giris: 'konvoya katılır', bosalt: 'Yolu boşalt'
@@ -46,6 +46,8 @@ const OYUN = {
   sahneYazi: { pankart: 'alt' },
   // Müzik: düğün oyun havası (darbuka, def zili, klarnet, alttan bas). Gelin Konvoyu'nun iki havası, aynı oyunun
   // 3B baskısı olduğu için aynen. Yazım docs/MUZIK.md. Tempo konvoyun hızını ve rejinin kesmelerini belirler.
+  // Sahnede jeton sayısı yok (TikTok yayın kuralları): sıra kutusunda yalnız adlar, bildirimde etkinin adı.
+  sahneJeton: false,
   muzik: {
     takim: 'dugun',
     havalar: [

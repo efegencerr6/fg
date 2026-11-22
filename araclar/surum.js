@@ -13,8 +13,8 @@
  * taze indirilen arşivinki gibi, aynı sabit değerle denetlenir. Tutmazsa yeniden indirilir, doğrulanan yeni arşiv
  * önbellekteki bozuğun yerine yazılır. Önbelleğe yalnız sha256'sı tutmuş arşiv girer.
  *
- * Çıktı: dist/surum-<tarih>-<işleme>/tiktok-oyun-fabrikasi/ (paketin kendisi) ve yanında
- * tiktok-oyun-fabrikasi-<node sürümü>-windows-x64.zip (içinde tek üst klasör: tiktok-oyun-fabrikasi/).
+ * Çıktı: dist/surum-<tarih>-<işleme>/furkanxtopalsistem/ (paketin kendisi) ve yanında
+ * furkanxtopalsistem-<node sürümü>-windows-x64.zip (içinde tek üst klasör: furkanxtopalsistem/).
  * Paketin içi:
  *   - deponun son işlemesinin (HEAD) ağacı, tam olarak "git archive HEAD" verdiği gibi: klasörde duran izlenmeyen
  *     dosyalar (.env, notlar) ve işlenmemiş değişiklikler pakete GİRMEZ. Çalışma ağacı temiz değilse (işlenmemiş
@@ -38,7 +38,7 @@ const fs = require('fs'), os = require('os'), path = require('path'), crypto = r
 
 const KOK = path.join(__dirname, '..');
 const { zipYaz } = require('./zip');
-const UST = 'tiktok-oyun-fabrikasi';
+const UST = 'furkanxtopalsistem';
 
 function sha256Dosya(yol) {
   const h = crypto.createHash('sha256'), fd = fs.openSync(yol, 'r'), tampon = Buffer.alloc(1 << 20);
@@ -58,7 +58,7 @@ function paketDenetle(kl) {
   const sorun = [], var_ = y => fs.existsSync(path.join(kl, y));
   for (const y of ['node/node.exe', 'node/LICENSE', 'node_modules/tiktok-live-connector/package.json', 'kopru.js', 'package.json', 'BASLAT.bat', 'BASLAT.command',
     'BASLAT.sh', 'cekirdek/node-yok.html', 'cekirdek/ana-sayfa.html', 'SURUM.txt', 'oyunlar/halay/oyun.html', 'oyunlar/konvoy/oyun.html', 'oyunlar/konvoy-3b/oyun.html',
-    'oyunlar/vur-duzelsin/oyun.html', 'kitaplik/LICENSE-three.txt'])
+    'oyunlar/halat-cekme/oyun.html', 'oyunlar/dolmus/oyun.html', 'kitaplik/LICENSE-three.txt'])
     if (!var_(y)) sorun.push('eksik: ' + y);
   for (const y of ['.git', 'test/cikti', 'dist', 'node_modules/playwright', 'node_modules/playwright-core', 'node/npm', 'node/npm.cmd', 'node/node_modules'])
     if (var_(y)) sorun.push('olmamalı: ' + y);
@@ -180,7 +180,7 @@ async function main() {
 
   // 5. SURUM.txt
   fs.writeFileSync(path.join(paket, 'SURUM.txt'), [
-    'TikTok Oyun Fabrikası - Windows hazır paketi', '',
+    'TikTok furkanxtopal Sistemi - Windows hazır paketi', '',
     'Node.js:            ' + sabit.surum + ' (node\\node.exe, resmî arşiv ' + sabit.dosya + ', SHA-256 ' + sabit.sha256 + ')',
     'tiktok-live-connector: ' + kutPj.version, 'Paketlendiği tarih:  ' + zaman.toISOString().slice(0, 19).replace('T', ' ') + ' UTC',
     'Git işlemesi:       ' + islem + (kirli ? ' (--kirli-izin: çalışma ağacında işlenmemiş değişiklik ya da izlenmeyen dosya vardı; pakete yalnız bu işleme girdi)' : ''), '',

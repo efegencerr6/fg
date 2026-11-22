@@ -5,7 +5,7 @@ const OYUN = {
   id: 'mendil-kimde',
   ad: 'Mendil Kimde?',
   logo: ['Mendil', 'Kimde?'],
-  nasil: { yorum: 'Yorum: halaya gir', begeni: 'Beğeni: tempo', hediye: 'Hediye: mendil' },
+  nasil: { yorum: 'Yorum: halaya gir', begeni: 'Beğeni: tempo', hediye: '' },
   yazi: {
     sira: 'Halay sırası', gosterge: 'Coşku', bos: 'Meydan boş. İlk yazan mendili alır.',
     birim: 'kişi', ses: 'Davul zurnayı başlat', sahne: 'Halay sahnesi', giris: 'halaya girer', bosalt: 'Meydanı boşalt'
@@ -25,5 +25,7 @@ const OYUN = {
   renk: {},
   kamera: {},
   // Müzik: halayın davul zurnası ve üç havası (çekirdekteki davul-zurna takımının kendi havaları; docs/MUZIK.md).
+  // Sahnede jeton sayısı yok (TikTok yayın kuralları): sıra kutusunda yalnız adlar, bildirimde etkinin adı.
+  sahneJeton: false,
   muzik: { takim: 'davul-zurna', havalar: ['harman', 'toz', 'cifte'] }
 };

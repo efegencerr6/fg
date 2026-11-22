@@ -32,7 +32,7 @@ Bu rehber, programcı olmayan bir yayıncı içindir. Elinde bir oyun paketi kla
    kendiliğinden kapanır: oyunun motoru arka planda, penceresiz çalışır. Motoru durdurmak için ana sayfanın altındaki
    **Motoru kapat**'a bas, sonra **Evet, kapat**. Açık oyun durur, sayfa "Motor durdu." der ve **Başlat** düğmesini
    gösterir; ona basınca salon aynı sekmede geri gelir. O sekmeyi kapatınca motor iki üç dakika içinde tamamen
-   kapanır (klasörü silebilir ya da taşıyabilirsin). Tarayıcıda oyun fabrikasının hiçbir sayfası açık değilse motor
+   kapanır (klasörü silebilir ya da taşıyabilirsin). Tarayıcıda sistemin hiçbir sayfası açık değilse motor
    10 dakika sonra kendiliğinden de kapanır; açık bir oyun sayfası (yayında yakalanan sekme) varken kapanmaz.
    Motor açılamazsa siyah pencere kapanmaz ve nedenini yazar.
 4. Önce sarı **Dene** düğmesine bas: oyun TikTok'a bağlanmadan, sahte izleyicilerle açılır. Neye benzediğini gör.

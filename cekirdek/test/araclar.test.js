@@ -153,7 +153,7 @@ if (process.platform === 'win32') {
   const { zipYaz, zipOku } = require(path.join(KOK, 'araclar', 'zip.js')), surum = require(path.join(KOK, 'araclar', 'surum.js'));
   const sabit = JSON.parse(fs.readFileSync(path.join(KOK, 'araclar', 'surum-node.json'), 'utf8'));
   // Sabit sürüm her yerde aynı: surum-node.json, BASLAT.bat ve yardım sayfasındaki .msi adresi
-  kontrol('Hazır paket: sabit Node sürümü tek yerde (surum-node.json: v24, sha256 64 hane, resmî adres) ve BASLAT.bat ile yardım sayfası aynı .msi adresini gösterir', /^24\.\d+\.\d+$/.test(sabit.surum) && /^[0-9a-f]{64}$/.test(sabit.sha256) && sabit.url === 'https://nodejs.org/dist/v' + sabit.surum + '/node-v' + sabit.surum + '-win-x64.zip' && sabit.msi === 'https://nodejs.org/dist/v' + sabit.surum + '/node-v' + sabit.surum + '-x64.msi' && fs.readFileSync(path.join(KOK, 'BASLAT.bat'), 'latin1').includes(sabit.msi) && fs.readFileSync(path.join(KOK, 'cekirdek', 'node-yok.html'), 'utf8').includes(sabit.msi) && /\.msi uzantılı kurulum dosyası/.test(fs.readFileSync(path.join(KOK, 'cekirdek', 'node-yok.html'), 'utf8')) && /github\.com\/furkancavlak\/tiktok-oyun-fabrikasi\/releases/.test(fs.readFileSync(path.join(KOK, 'cekirdek', 'node-yok.html'), 'utf8')), sabit);
+  kontrol('Hazır paket: sabit Node sürümü tek yerde (surum-node.json: v24, sha256 64 hane, resmî adres) ve BASLAT.bat ile yardım sayfası aynı .msi adresini gösterir', /^24\.\d+\.\d+$/.test(sabit.surum) && /^[0-9a-f]{64}$/.test(sabit.sha256) && sabit.url === 'https://nodejs.org/dist/v' + sabit.surum + '/node-v' + sabit.surum + '-win-x64.zip' && sabit.msi === 'https://nodejs.org/dist/v' + sabit.surum + '/node-v' + sabit.surum + '-x64.msi' && fs.readFileSync(path.join(KOK, 'BASLAT.bat'), 'latin1').includes(sabit.msi) && fs.readFileSync(path.join(KOK, 'cekirdek', 'node-yok.html'), 'utf8').includes(sabit.msi) && /\.msi uzantılı kurulum dosyası/.test(fs.readFileSync(path.join(KOK, 'cekirdek', 'node-yok.html'), 'utf8')) && /github\.com\/topalxfurkan\/furkanxtopalsistem\/releases/.test(fs.readFileSync(path.join(KOK, 'cekirdek', 'node-yok.html'), 'utf8')), sabit);
   const hk = fs.mkdtempSync(path.join(os.tmpdir(), 'canli-surum-'));
   // SHA-256 denetimi: doğru değer geçer, yanlış değer reddedilir
   const fx = path.join(hk, 'ornek.bin'); fs.writeFileSync(fx, 'tiktok oyun fabrikası');
@@ -182,13 +182,13 @@ if (process.platform === 'win32') {
     git('add', '-A'); git('-c', 'user.name=test', '-c', 'user.email=test@example.invalid', '-c', 'commit.gpgsign=false', 'commit', '-q', '-m', 'test');
     const kur = (json, cikti, ...ek) => spawnSync(process.execPath, [path.join(KOK, 'araclar', 'surum.js'), '--surum-json', json, '--node-zip', arsiv, '--moduller', path.join(hk, 'moduller'), '--cikti', cikti, '--zipsiz', '--depo', depo, ...ek], { cwd: KOK, encoding: 'utf8', timeout: 300000 });
     const yanlisCikti = path.join(hk, 'cikti-yanlis'), y = kur(jYanlis, yanlisCikti);
-    const yanlisIc = fs.existsSync(yanlisCikti) ? fs.readdirSync(yanlisCikti).map(d => fs.existsSync(path.join(yanlisCikti, d, 'tiktok-oyun-fabrikasi', 'node'))) : [];
+    const yanlisIc = fs.existsSync(yanlisCikti) ? fs.readdirSync(yanlisCikti).map(d => fs.existsSync(path.join(yanlisCikti, d, 'furkanxtopalsistem', 'node'))) : [];
     kontrol('Hazır paket: Node arşivinin SHA-256\'sı tutmazsa araç durur, hiçbir şey paketlenmez (node klasörü yok)', y.status === 1 && /SHA-256 tutmuyor/.test(y.stderr) && yanlisIc.every(x => !x), { kod: y.status, hata: (y.stderr || '').slice(0, 300) });
     const iyiCikti = path.join(hk, 'cikti-iyi'), g = kur(jDogru, iyiCikti);
-    const kokAd = fs.existsSync(iyiCikti) ? fs.readdirSync(iyiCikti)[0] : '', pk2 = path.join(iyiCikti, kokAd || 'yok', 'tiktok-oyun-fabrikasi');
+    const kokAd = fs.existsSync(iyiCikti) ? fs.readdirSync(iyiCikti)[0] : '', pk2 = path.join(iyiCikti, kokAd || 'yok', 'furkanxtopalsistem');
     const sorun = fs.existsSync(pk2) ? surum.paketDenetle(pk2) : ['paket yok'];
     const surumTxt = fs.existsSync(path.join(pk2, 'SURUM.txt')) ? fs.readFileSync(path.join(pk2, 'SURUM.txt'), 'utf8') : '';
-    kontrol('Hazır paket düzeni: node\\node.exe + LICENSE, node_modules\\tiktok-live-connector, dört oyun, başlatıcılar, node-yok.html, SURUM.txt; geliştirme bağımlılığı, test/cikti, .git, dist, npm yok', g.status === 0 && sorun.length === 0 && ['halay', 'konvoy', 'konvoy-3b', 'vur-duzelsin'].every(o => fs.existsSync(path.join(pk2, 'oyunlar', o, 'oyun.html'))) && !fs.existsSync(path.join(pk2, '.git')) && !fs.existsSync(path.join(pk2, 'test', 'cikti')) && !fs.existsSync(path.join(pk2, 'node_modules', 'playwright')) && new RegExp('Node\\.js: +' + v.replace(/\./g, '\\.')).test(surumTxt) && /tiktok-live-connector: 0\.0\.0-deneme/.test(surumTxt) && /Git işlemesi: +[0-9a-f]{40}/.test(surumTxt), { kod: g.status, sorun, hata: (g.stderr || '').slice(-300), surumTxt });
+    kontrol('Hazır paket düzeni: node\\node.exe + LICENSE, node_modules\\tiktok-live-connector, beş oyun, başlatıcılar, node-yok.html, SURUM.txt; geliştirme bağımlılığı, test/cikti, .git, dist, npm yok', g.status === 0 && sorun.length === 0 && ['dolmus', 'halat-cekme', 'halay', 'konvoy', 'konvoy-3b'].every(o => fs.existsSync(path.join(pk2, 'oyunlar', o, 'oyun.html'))) && !fs.existsSync(path.join(pk2, '.git')) && !fs.existsSync(path.join(pk2, 'test', 'cikti')) && !fs.existsSync(path.join(pk2, 'node_modules', 'playwright')) && new RegExp('Node\\.js: +' + v.replace(/\./g, '\\.')).test(surumTxt) && /tiktok-live-connector: 0\.0\.0-deneme/.test(surumTxt) && /Git işlemesi: +[0-9a-f]{40}/.test(surumTxt), { kod: g.status, sorun, hata: (g.stderr || '').slice(-300), surumTxt });
     // Node arşivi önbelleği (ağa çıkmadan): önbellekte doğru arşiv varsa indirmeden onu kullanır; önbellekteki arşiv
     // bozuksa (sha256 tutmuyor) kullanmaz, yeniden indirmeye kalkar (adres .invalid: indirme düşer, araç durur, hiçbir şey
     // paketlenmez) ve bozuk dosyanın üstüne doğrulanmamış bir şey yazmaz.
@@ -196,11 +196,11 @@ if (process.platform === 'win32') {
     fs.mkdirSync(obKl, { recursive: true }); fs.copyFileSync(arsiv, obYol);
     const kurOb = cikti => spawnSync(process.execPath, [path.join(KOK, 'araclar', 'surum.js'), '--surum-json', jDogru, '--onbellek', obKl, '--moduller', path.join(hk, 'moduller'), '--cikti', cikti, '--zipsiz', '--depo', depo], { cwd: KOK, encoding: 'utf8', timeout: 300000 });
     const obCikti = path.join(hk, 'cikti-onbellek'), ob1 = kurOb(obCikti);
-    const obPk = path.join(obCikti, fs.existsSync(obCikti) ? fs.readdirSync(obCikti)[0] : 'yok', 'tiktok-oyun-fabrikasi');
+    const obPk = path.join(obCikti, fs.existsSync(obCikti) ? fs.readdirSync(obCikti)[0] : 'yok', 'furkanxtopalsistem');
     kontrol('Hazır paket: önbellekte sha256\'sı tutan Node arşivi varsa indirmeden onu kullanır (adı sürüm + sha256\'nın ilk 12 hanesi), paket tamam', ob1.status === 0 && /önbellekten alındı/.test(ob1.stdout) && !/indiriliyor/.test(ob1.stdout) && path.basename(obYol) === ic + '-' + sahte.sha256.slice(0, 12) + '.zip' && fs.existsSync(path.join(obPk, 'node', 'node.exe')), { kod: ob1.status, cikti: (ob1.stdout || '').split('\n').filter(s => /Node|önbellek/i.test(s)).join(' / '), hata: (ob1.stderr || '').slice(-300) });
     fs.writeFileSync(obYol, 'bozuk arşiv');
     const obCikti2 = path.join(hk, 'cikti-onbellek-bozuk'), ob2 = kurOb(obCikti2);
-    const obIc2 = fs.existsSync(obCikti2) ? fs.readdirSync(obCikti2).map(d => fs.existsSync(path.join(obCikti2, d, 'tiktok-oyun-fabrikasi', 'node'))) : [];
+    const obIc2 = fs.existsSync(obCikti2) ? fs.readdirSync(obCikti2).map(d => fs.existsSync(path.join(obCikti2, d, 'furkanxtopalsistem', 'node'))) : [];
     kontrol('Hazır paket: önbellekteki arşivin sha256\'sı tutmazsa kullanılmaz, yeniden indirilir (indirilemeyince araç durur, node klasörü yok), önbelleğe doğrulanmamış dosya yazılmaz', ob2.status === 1 && /SHA-256'sı tutmuyor/.test(ob2.stdout) && /Yeniden indiriliyor/.test(ob2.stdout) && /Node indiriliyor/.test(ob2.stdout) && obIc2.every(x => !x) && fs.readFileSync(obYol, 'utf8') === 'bozuk arşiv', { kod: ob2.status, cikti: (ob2.stdout || '').slice(-400), hata: (ob2.stderr || '').slice(0, 300) });
     // Kirli ağaç: izlenmeyen dosya (.env.local, notlarim.txt) ve işlenmemiş değişiklik varken araç durur; --kirli-izin ile
     // yalnız işlenmiş ağaç paketlenir (izlenmeyen dosyalar girmez, değişen dosya işlendiği hâliyle girer), SURUM.txt bunu yazar.
@@ -209,10 +209,10 @@ if (process.platform === 'win32') {
     const kirliCikti = path.join(hk, 'cikti-kirli'), kd = kur(jDogru, kirliCikti);
     kontrol('Hazır paket: çalışma ağacında izlenmeyen dosya ya da işlenmemiş değişiklik varken araç durur (paket yok), nedenini yazar', kd.status === 1 && /Çalışma ağacı temiz değil/.test(kd.stderr) && /--kirli-izin/.test(kd.stderr) && !fs.existsSync(kirliCikti), { kod: kd.status, hata: (kd.stderr || '').slice(0, 300) });
     const izinCikti = path.join(hk, 'cikti-izin'), ki = kur(jDogru, izinCikti, '--kirli-izin');
-    const pk3 = path.join(izinCikti, fs.existsSync(izinCikti) ? fs.readdirSync(izinCikti)[0] : 'yok', 'tiktok-oyun-fabrikasi');
+    const pk3 = path.join(izinCikti, fs.existsSync(izinCikti) ? fs.readdirSync(izinCikti)[0] : 'yok', 'furkanxtopalsistem');
     const s3 = fs.existsSync(path.join(pk3, 'SURUM.txt')) ? fs.readFileSync(path.join(pk3, 'SURUM.txt'), 'utf8') : '';
     kontrol('Hazır paket --kirli-izin: yalnız işlenmiş ağaç girer (.env.local ve notlarim.txt yok, README işlendiği hâliyle), SURUM.txt kirli ağaçtan yapıldığını söyler', ki.status === 0 && !fs.existsSync(path.join(pk3, '.env.local')) && !fs.existsSync(path.join(pk3, 'notlarim.txt')) && fs.readFileSync(path.join(pk3, 'README.md'), 'utf8') === readmeIslenmis && /--kirli-izin/.test(s3), { kod: ki.status, hata: (ki.stderr || '').slice(-300), surum: s3.slice(0, 400) });
-    // Paketten, paketin kendi Node'uyla açılan motor: kapısında yanıt verir, kütüphane hazır, dört oyun listede
+    // Paketten, paketin kendi Node'uyla açılan motor: kapısında yanıt verir, kütüphane hazır, beş oyun listede
     if (fs.existsSync(path.join(pk2, 'node', 'node.exe'))) {
       const kp = (parseInt(process.env.KOPRU_TEST_PORT, 10) || 8791) + 12;
       const m = require('child_process').spawn(path.join(pk2, 'node', 'node.exe'), ['kopru.js', '--ana-sayfa', '--port', String(kp)], { cwd: pk2, stdio: ['ignore', 'pipe', 'pipe'] });
@@ -220,7 +220,7 @@ if (process.platform === 'win32') {
       const yok = spawnSync(process.execPath, ['-e', "const h=require('http');let n=0;(function d(){h.get({host:'127.0.0.1',port:" + kp + ",path:'/api/oyunlar',headers:{host:'127.0.0.1:" + kp + "'}},r=>{let s='';r.on('data',c=>s+=c);r.on('end',()=>console.log(s));}).on('error',()=>{if(++n<60)setTimeout(d,250);else console.log('null');});})();"], { encoding: 'utf8', timeout: 30000 });
       let api = null; try { api = JSON.parse(yok.stdout); } catch (e) { }
       m.kill();
-      kontrol('Hazır paket: motor paketin kendi node\\node.exe\'siyle açılır, /api/oyunlar yanıt verir, kütüphane "hazir", dört oyun listede (canlı bağlantı açılmaz)', !!api && api.kutuphane.durum === 'hazir' && JSON.stringify(api.oyunlar.map(o => o.id)) === JSON.stringify(['halay', 'konvoy', 'konvoy-3b', 'vur-duzelsin']), api && { kutuphane: api.kutuphane, oyunlar: api.oyunlar.map(o => o.id) });
+      kontrol('Hazır paket: motor paketin kendi node\\node.exe\'siyle açılır, /api/oyunlar yanıt verir, kütüphane "hazir", beş oyun listede (canlı bağlantı açılmaz)', !!api && api.kutuphane.durum === 'hazir' && JSON.stringify(api.oyunlar.map(o => o.id)) === JSON.stringify(['dolmus', 'halat-cekme', 'halay', 'konvoy', 'konvoy-3b']), api && { kutuphane: api.kutuphane, oyunlar: api.oyunlar.map(o => o.id) });
     }
     // BASLAT.bat: yanında node\node.exe varsa onu çalıştırır (yoldaki node'u değil); ZIP'ten çıkarılmadan açılınca uyarır
     const bk = path.join(hk, 'bat-paket'); fs.mkdirSync(path.join(bk, 'node'), { recursive: true });

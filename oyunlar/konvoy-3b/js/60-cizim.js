@@ -13,7 +13,7 @@ function oyunKamera() { return [[0, 0]]; }
 
 // WebGL yok: sahnede ne olduğunu düz Türkçeyle söyleyen bir kart (kurallar, sıralama, yazılar yine çalışır).
 const WEBGL_YOK = ['Bu oyun 3B çizilir:', 'ekran kartı (WebGL) gerekir.', '', 'Bu bilgisayarda ya da tarayıcıda', 'WebGL kapalı.', '',
-  'Tarayıcı ayarlarında "donanım', 'hızlandırması"nı açın ya da 2B', 'oyunlardan birini yayına verin:', 'Gelin Konvoyu, Mendil Kimde?', 've Vur Düzelsin!'];
+  'Tarayıcı ayarlarında "donanım', 'hızlandırması"nı açın ya da 2B', 'oyunlardan birini yayına verin:', 'Gelin Konvoyu, Mendil Kimde?,', 'Halat Çekme ya da Dolmuş.'];
 function webglYok() {
   const g = c.createLinearGradient(0, 0, 0, GH);
   g.addColorStop(0, GOK.ust);
@@ -209,7 +209,7 @@ function kaliteOlc() {
       else if (!KALITE.yavas) {
         KALITE.yavas = true;
         KALITE.sahneUyari = { b0: zaman };
-        kaliteUyar('Bu bilgisayarın ekran kartı 3B sahneye yetişmiyor (kare başına yaklaşık ' + Math.round(KALITE.aralik) + ' ms; akıcı görüntü için 33 ms altı gerekir). Kalite en düşükte. Tarayıcının donanım hızlandırmasını açın ya da 2B oyunlardan birini yayına verin (Gelin Konvoyu, Mendil Kimde?, Vur Düzelsin!).');
+        kaliteUyar('Bu bilgisayarın ekran kartı 3B sahneye yetişmiyor (kare başına yaklaşık ' + Math.round(KALITE.aralik) + ' ms; akıcı görüntü için 33 ms altı gerekir). Kalite en düşükte. Tarayıcının donanım hızlandırmasını açın ya da 2B oyunlardan birini yayına verin (Gelin Konvoyu, Mendil Kimde?, Köy Halat Çekme, Dolmuş).');
       }
     }
     return;

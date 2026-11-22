@@ -30,10 +30,14 @@ function siraYaz() {
     const ad = document.createElement('span');
     ad.className = 'ad';
     ad.textContent = k.ad;
-    const jt = document.createElement('span');
-    jt.className = 'jt';
-    jt.textContent = k.jeton;
-    li.append(no, ad, jt);
+    li.append(no, ad);
+    // OYUN.sahneJeton === false: sahnede jeton sayısı yazılmaz (yayın masasında yazar)
+    if (OYUN.sahneJeton !== false) {
+      const jt = document.createElement('span');
+      jt.className = 'jt';
+      jt.textContent = k.jeton;
+      li.append(jt);
+    }
     ol.append(li);
   });
 }
@@ -44,9 +48,9 @@ function bildir(ad, orta, vurgu) {
     kutu.lastChild.remove();
   bildirimSon = zaman; // aynı anda yağan hediyeler tek satırda yenilenir
   const d = document.createElement('div'), b = document.createElement('b');
-  d.append(ad + ' · ' + orta);
+  d.append(ad + (orta ? ' · ' + orta : ''));
   if (vurgu) {
-    b.textContent = ' ' + vurgu;
+    b.textContent = (orta ? ' ' : ' · ') + vurgu;
     d.append(b);
   }
   kutu.append(d);
